@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db_budget_personnel
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+# App Properties
+appConfig:
+  app:
+    jwtSecret: bezKoderSecretKey
+    jwtExpirationMs: 20000
+    jwtRefreshExpirationMs: 120000
