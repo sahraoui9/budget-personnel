@@ -1,6 +1,7 @@
 package bgpersonnel.budget.category;
 
 import bgpersonnel.budget.model.BaseEntity;
+import bgpersonnel.budget.objectif.Objectif;
 import bgpersonnel.budget.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,4 +23,10 @@ public class Category extends BaseEntity {
 
     @OneToMany(mappedBy = "category")
     private List<Transaction> transactions = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "category_objectifs",
+            joinColumns = @JoinColumn(name = "category_id"))
+    private List<Objectif> objectifs = new ArrayList<>();
+
 }
