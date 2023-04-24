@@ -50,4 +50,8 @@ public class TransactionController {
         return service.findByDate(date);
     }
 
+    @PutMapping("{transactionId}/category/{categoryId}")
+    public Transaction addCategory(@PathVariable long transactionId, @PathVariable long categoryId) {
+        return service.addCategory(transactionId, categoryId);
+    }
 }

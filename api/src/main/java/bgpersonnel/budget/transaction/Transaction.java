@@ -28,6 +28,6 @@ public class Transaction extends BaseEntity {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="category_id", nullable=false)
+    @JoinColumn(name="category_id")
     private Category category;
 }

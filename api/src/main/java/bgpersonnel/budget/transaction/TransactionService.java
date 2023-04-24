@@ -2,6 +2,9 @@ package bgpersonnel.budget.transaction;
 
 import bgpersonnel.budget.authentification.entity.User;
 import bgpersonnel.budget.authentification.services.UserService;
+import bgpersonnel.budget.category.Category;
+import bgpersonnel.budget.category.CategoryRepository;
+import bgpersonnel.budget.category.CategoryService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,10 +17,16 @@ import java.util.Optional;
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserService userService;
+    private final CategoryService categoryService;
 
-    public TransactionService(TransactionRepository transactionRepository, UserService userService) {
+    public TransactionService(
+            TransactionRepository transactionRepository,
+            UserService userService,
+            CategoryService categoryService
+    ) {
         this.transactionRepository = transactionRepository;
         this.userService = userService;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -90,5 +99,20 @@ public class TransactionService {
      */
     public void deleteById(Long id) {
         transactionRepository.deleteById(id);
+    }
+
+    /**
+     * Ajoute une catégorie à la transaction
+     * @param transactionId  transaction à modifier
+     * @param categoryId catégorie à ajouter à la transaction
+     * @return la transaction avec les nouvelles données.
+     */
+    public Transaction addCategory(long transactionId, long categoryId) {
+        Category category = categoryService.findById(categoryId);
+        Transaction transaction = findById(transactionId);
+
+        transaction.setCategory(category);
+
+        return this.transactionRepository.save(transaction);
     }
 }
