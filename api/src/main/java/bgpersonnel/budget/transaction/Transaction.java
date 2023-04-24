@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,7 +20,7 @@ public class Transaction extends BaseEntity {
     private Long id;
     private double amount;
     private String description;
-
+    private LocalDateTime dateTransaction;
     private TypeTransaction typeTransaction;
 
     @ManyToOne
