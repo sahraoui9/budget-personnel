@@ -24,6 +24,8 @@ public class Objectif extends BaseEntity {
 
     private boolean isReached;
 
+    private TypeObjectif typeObjectif;
+
     @ManyToMany(mappedBy = "objectifs")
     private List <Category> categories = new ArrayList<>();
 
