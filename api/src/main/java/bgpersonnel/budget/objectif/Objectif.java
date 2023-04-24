@@ -17,7 +17,9 @@ public class Objectif extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String name;
     private double amount;
+
     private String description;
 
     private LocalDateTime term;
