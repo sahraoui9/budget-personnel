@@ -21,6 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         // jsr250Enabled = true,
         prePostEnabled = true)
 public class WebSecurityConfig {
+    public static final String[] PUBLIC_PATHS = {"/api/auth/**",
+            "/v3/api-docs.yaml",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"};
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -60,6 +65,7 @@ public class WebSecurityConfig {
                 .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
                 .requestMatchers("/api/posts/**").permitAll()
+                .requestMatchers(PUBLIC_PATHS).permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

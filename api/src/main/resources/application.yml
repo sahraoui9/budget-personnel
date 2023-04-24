@@ -14,3 +14,6 @@ appConfig:
     jwtSecret: bezKoderSecretKey
     jwtExpirationMs: 20000
     jwtRefreshExpirationMs: 120000
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: http://localhost:8080
