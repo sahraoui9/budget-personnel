@@ -49,8 +49,6 @@ public class InitDb implements CommandLineRunner {
         user1.getRoles().add(roleUser);
         entityManager.persist(user1);
 
-
-
         entityManager.flush();
     }
 }
