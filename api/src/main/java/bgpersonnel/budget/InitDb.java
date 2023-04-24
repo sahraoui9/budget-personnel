@@ -1,17 +1,15 @@
 package bgpersonnel.budget;
 
 
-import bgpersonnel.budget.entity.ERole;
-import bgpersonnel.budget.entity.Role;
-import bgpersonnel.budget.entity.User;
+import bgpersonnel.budget.authentification.entity.ERole;
+import bgpersonnel.budget.authentification.entity.Role;
+import bgpersonnel.budget.authentification.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Component
 public class InitDb implements CommandLineRunner {

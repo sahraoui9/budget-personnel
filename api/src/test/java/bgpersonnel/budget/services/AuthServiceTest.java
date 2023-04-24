@@ -1,14 +1,15 @@
 package bgpersonnel.budget.services;
 
-import bgpersonnel.budget.entity.User;
+import bgpersonnel.budget.authentification.entity.User;
+import bgpersonnel.budget.authentification.services.AuthService;
 import bgpersonnel.budget.exeception.AlreadyExistsException;
-import bgpersonnel.budget.payload.request.LoginRequest;
-import bgpersonnel.budget.payload.request.SignupRequest;
-import bgpersonnel.budget.payload.response.JwtResponse;
-import bgpersonnel.budget.repository.RoleRepository;
-import bgpersonnel.budget.repository.UserRepository;
-import bgpersonnel.budget.security.JwtUtils;
-import bgpersonnel.budget.security.services.RefreshTokenService;
+import bgpersonnel.budget.authentification.payload.request.LoginRequest;
+import bgpersonnel.budget.authentification.payload.request.SignupRequest;
+import bgpersonnel.budget.authentification.payload.response.JwtResponse;
+import bgpersonnel.budget.authentification.repository.RoleRepository;
+import bgpersonnel.budget.authentification.repository.UserRepository;
+import bgpersonnel.budget.authentification.security.JwtUtils;
+import bgpersonnel.budget.authentification.security.services.RefreshTokenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
