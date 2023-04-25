@@ -43,4 +43,14 @@ public class ObjectifService {
         return objectifRepository.findByUser(id);
     }
 
+
+    public Double calculateProgressPercentage(Long objectifId) {
+        Objectif objectif = objectifRepository.findById(objectifId).orElse(null);
+        if (objectif == null) {
+            throw new IllegalArgumentException("Objectif invalide");
+        }
+        Double progress = objectifRepository.calculateProgress(objectif);
+        return progress / objectif.getAmount() * 100.0;
+    }
+
 }
