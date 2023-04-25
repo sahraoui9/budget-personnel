@@ -1,4 +1,4 @@
-package bgpersonnel.budget.authentification.payload.response;
+package bgpersonnel.budget.authentification.signin;
 
 
 import lombok.Data;
@@ -15,7 +15,7 @@ public class JwtResponse {
     private String email;
     private List<String> roles;
 
-    public JwtResponse(String accessToken, String refreshToken , Long id, String name, String email, List<String> roles) {
+    public JwtResponse(String accessToken, String refreshToken, Long id, String name, String email, List<String> roles) {
         this.token = accessToken;
         this.refreshToken = refreshToken;
         this.id = id;

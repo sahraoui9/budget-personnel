@@ -1,9 +1,9 @@
 package bgpersonnel.budget;
 
 
-import bgpersonnel.budget.authentification.entity.ERole;
-import bgpersonnel.budget.authentification.entity.Role;
-import bgpersonnel.budget.authentification.entity.User;
+import bgpersonnel.budget.authentification.common.entity.ERole;
+import bgpersonnel.budget.authentification.common.entity.Role;
+import bgpersonnel.budget.authentification.common.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.boot.CommandLineRunner;
@@ -41,7 +41,7 @@ public class InitDb implements CommandLineRunner {
         String password = encoder.encode("password");
 
         User user1 = new User();
-        user1.setUsername("user1");
+        user1.setName("user1");
         user1.setEmail("user@mail.com");
         user1.setPassword(password);
         user1.getRoles().add(roleUser);

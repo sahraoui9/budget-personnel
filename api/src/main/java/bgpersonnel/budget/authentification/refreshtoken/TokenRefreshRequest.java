@@ -1,4 +1,4 @@
-package bgpersonnel.budget.authentification.payload.request;
+package bgpersonnel.budget.authentification.refreshtoken;
 
 
 import jakarta.validation.constraints.NotBlank;

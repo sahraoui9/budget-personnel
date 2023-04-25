@@ -1,4 +1,4 @@
-package bgpersonnel.budget.authentification.payload.response;
+package bgpersonnel.budget.authentification.refreshtoken;
 
 import lombok.Getter;
 import lombok.Setter;

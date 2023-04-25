@@ -1,4 +1,4 @@
-package bgpersonnel.budget.authentification.entity;
+package bgpersonnel.budget.authentification.common.entity;
 
 public enum ERole {
     ROLE_USER,

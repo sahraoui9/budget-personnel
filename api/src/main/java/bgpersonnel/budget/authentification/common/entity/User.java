@@ -1,9 +1,10 @@
-package bgpersonnel.budget.authentification.entity;
+package bgpersonnel.budget.authentification.common.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
@@ -13,19 +14,17 @@ import java.util.Set;
 @Entity
 @Data
 @ToString
+@AllArgsConstructor
 @Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        })
+        uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(max = 20)
-    private String username;
+    @Size(max = 50)
+    private String name;
 
     @NotBlank
     @Size(max = 50)
@@ -45,8 +44,8 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String name, String email, String password) {
+        this.name = name;
         this.email = email;
         this.password = password;
     }

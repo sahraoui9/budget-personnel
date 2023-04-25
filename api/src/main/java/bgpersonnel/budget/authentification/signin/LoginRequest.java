@@ -1,4 +1,4 @@
-package bgpersonnel.budget.authentification.payload.request;
+package bgpersonnel.budget.authentification.signin;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
