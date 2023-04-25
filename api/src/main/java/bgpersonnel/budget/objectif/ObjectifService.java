@@ -43,19 +43,4 @@ public class ObjectifService {
         return objectifRepository.findByUser(id);
     }
 
-    public List<Objectif> findByCategory(Long id) {
-        return objectifRepository.findByCategory(id);
-    }
-
-    public List<Objectif> findByType(TypeObjectif type) {
-        return objectifRepository.findByType(type);
-    }
-
-
-
-
-
-
-
-
 }

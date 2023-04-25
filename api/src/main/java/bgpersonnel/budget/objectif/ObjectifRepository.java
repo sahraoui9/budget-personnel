@@ -12,7 +12,4 @@ public interface ObjectifRepository extends JpaRepository<Objectif, Long>{
 
     List<Objectif> findByUser(Long id);
 
-    List<Objectif> findByCategory(Long id);
-
-    List<Objectif> findByType(TypeObjectif type);
 }

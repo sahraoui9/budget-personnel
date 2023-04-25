@@ -3,6 +3,7 @@ package bgpersonnel.budget.objectif;
 import bgpersonnel.budget.authentification.entity.User;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.model.BaseEntity;
+import bgpersonnel.budget.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,10 +27,8 @@ public class Objectif extends BaseEntity {
 
     private boolean isReached;
 
-    private TypeObjectif typeObjectif;
-
-    @ManyToMany(mappedBy = "objectifs")
-    private List <Category> categories = new ArrayList<>();
+    @OneToMany(mappedBy = "objectif")
+    private List<Transaction> transactions = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)

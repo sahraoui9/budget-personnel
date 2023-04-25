@@ -47,15 +47,6 @@ public class ObjectifController {
         return objectifService.findByUser(id);
     }
 
-    @GetMapping("/category/{id}")
-    public Iterable<Objectif> findByCategory(@PathVariable Long id) {
-        return objectifService.findByCategory(id);
-    }
 
-    @GetMapping("/type/{type}")
-    public Iterable<Objectif> findByType(@PathVariable TypeObjectif type) {
-        return objectifService.findByType(type);
-    }
-    
 
 }
