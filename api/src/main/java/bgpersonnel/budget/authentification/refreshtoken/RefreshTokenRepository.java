@@ -1,12 +1,11 @@
-package bgpersonnel.budget.authentification.repository;
+package bgpersonnel.budget.authentification.refreshtoken;
 
-import java.util.Optional;
-
-import bgpersonnel.budget.authentification.entity.RefreshToken;
-import bgpersonnel.budget.authentification.entity.User;
+import bgpersonnel.budget.authentification.common.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 
 @Repository

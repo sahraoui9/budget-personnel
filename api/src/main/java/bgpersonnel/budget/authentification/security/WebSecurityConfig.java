@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         // jsr250Enabled = true,
         prePostEnabled = true)
 public class WebSecurityConfig {
-    public static final String[] PUBLIC_PATHS = {"/api/auth/**",
+    private static final String[] PUBLIC_PATHS = {"/api/auth/**",
             "/v3/api-docs.yaml",
             "/v3/api-docs/**",
             "/swagger-ui/**",
@@ -62,11 +62,13 @@ public class WebSecurityConfig {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
+                .authorizeRequests()
+                .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
                 .requestMatchers("/api/posts/**").permitAll()
                 .requestMatchers(PUBLIC_PATHS).permitAll()
                 .anyRequest().authenticated();
+
 
         http.authenticationProvider(authenticationProvider());
 

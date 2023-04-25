@@ -1,6 +1,6 @@
 package bgpersonnel.budget.objectif;
 
-import bgpersonnel.budget.authentification.entity.User;
+import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.model.BaseEntity;
 import bgpersonnel.budget.transaction.Transaction;

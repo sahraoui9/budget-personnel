@@ -1,7 +1,7 @@
 package bgpersonnel.budget.transaction;
 
-import bgpersonnel.budget.authentification.entity.User;
-import bgpersonnel.budget.authentification.services.UserService;
+import bgpersonnel.budget.authentification.common.entity.User;
+import bgpersonnel.budget.authentification.common.services.UserService;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.category.CategoryRepository;
 import bgpersonnel.budget.category.CategoryService;

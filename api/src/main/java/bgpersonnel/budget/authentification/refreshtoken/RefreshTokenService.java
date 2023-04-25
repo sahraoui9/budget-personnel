@@ -1,18 +1,16 @@
-package bgpersonnel.budget.authentification.security.services;
+package bgpersonnel.budget.authentification.refreshtoken;
+
+import bgpersonnel.budget.authentification.common.repository.UserRepository;
+import bgpersonnel.budget.authentification.security.JwtUtils;
+import bgpersonnel.budget.authentification.security.exeception.TokenRefreshException;
+import bgpersonnel.budget.exeception.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
-
-import bgpersonnel.budget.authentification.entity.RefreshToken;
-import bgpersonnel.budget.exeception.NotFoundException;
-import bgpersonnel.budget.authentification.repository.RefreshTokenRepository;
-import bgpersonnel.budget.authentification.repository.UserRepository;
-import bgpersonnel.budget.authentification.security.exeception.TokenRefreshException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -26,6 +24,9 @@ public class RefreshTokenService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
     }
@@ -33,7 +34,7 @@ public class RefreshTokenService {
     public RefreshToken createRefreshToken(Long userId) {
         RefreshToken refreshToken = new RefreshToken();
 
-        refreshToken.setUser(userRepository.findById(userId).orElseThrow(() -> new NotFoundException( "User not found!")));
+        refreshToken.setUser(userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found!")));
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshToken.setToken(UUID.randomUUID().toString());
 
@@ -50,8 +51,20 @@ public class RefreshTokenService {
         return token;
     }
 
-    @Transactional
-    public int deleteByUserId(Long userId) {
-        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).orElseThrow(() -> new NotFoundException( "User not found!")));
+    public TokenRefreshResponse refreshToken(TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+        return this.findByToken(requestRefreshToken)
+                .map(this::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUsername(user.getEmail());
+                    return new TokenRefreshResponse(token, requestRefreshToken);
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Refresh token is not in database!"));
     }
+
+ /*   @Transactional
+    public int deleteByUserId(Long userId) {
+        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found!")));
+    }*/
 }
