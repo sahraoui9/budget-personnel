@@ -2,6 +2,7 @@ package bgpersonnel.budget.objectif;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -47,6 +48,15 @@ public class ObjectifController {
         return objectifService.findByUser(id);
     }
 
+    @GetMapping("/{id}/progression")
+    public ResponseEntity<Double> getProgression(@PathVariable Long id) {
+        Double progression = objectifService.calculateProgressPercentage(id);
+        return ResponseEntity.ok(progression);
+    }
 
+    @GetMapping("/objectifs/{id}/verifier")
+    public ResponseEntity<Boolean> isObjectifAtteint(@PathVariable Long id) {
+        return ResponseEntity.ok(objectifService.isObjectifAtteint(id));
+    }
 
 }

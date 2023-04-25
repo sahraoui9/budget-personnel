@@ -5,6 +5,9 @@ import bgpersonnel.budget.authentification.services.UserService;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.category.CategoryRepository;
 import bgpersonnel.budget.category.CategoryService;
+import bgpersonnel.budget.objectif.Objectif;
+import bgpersonnel.budget.objectif.ObjectifService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,6 +21,9 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserService userService;
     private final CategoryService categoryService;
+
+    @Autowired
+    private ObjectifService objectifService;
 
     public TransactionService(
             TransactionRepository transactionRepository,
@@ -46,8 +52,14 @@ public class TransactionService {
     public Transaction create(Transaction transaction, long userId) {
         User user = this.userService.findById(userId);
         transaction.setUser(user);
+        Transaction savedTransaction = transactionRepository.save(transaction);
+        Objectif objectif = transaction.getObjectif();
+        if (objectif != null) {
+            boolean objectifAtteint = objectifService.isObjectifAtteint(objectif.getId());
+        }
 
-        return transactionRepository.save(transaction);
+        return savedTransaction;
+
     }
 
     /**
