@@ -17,11 +17,6 @@ public class ObjectifService {
 
     @Autowired
     private JavaMailSender mailSender;
-
-    public ObjectifService(ObjectifRepository objectifRepository) {
-        this.objectifRepository = objectifRepository;
-    }
-
     // CRUD operations
 
     public Objectif createObjectif(Objectif objectif) {
