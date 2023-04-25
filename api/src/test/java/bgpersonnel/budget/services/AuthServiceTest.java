@@ -52,20 +52,20 @@ public class AuthServiceTest {
         authService.registerUser(signupRequest);
 
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("test_user");
+        loginRequest.setEmail("test_user@example.com");
         loginRequest.setPassword("test_password");
 
         JwtResponse jwtResponse = authService.signIn(loginRequest);
 
         assertNotNull(jwtResponse);
         assertNotNull(jwtResponse.getRefreshToken());
-        assertEquals("test_user", jwtResponse.getUsername());
+        assertEquals("test_user@example.com", jwtResponse.getEmail());
     }
 
     @Test
     public void testSignInWithIncorrectCredentials() {
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("testuser");
+        loginRequest.setEmail("test_user@example.com");
         loginRequest.setPassword("wrongpassword");
         assertThrows(BadCredentialsException.class, () -> authService.signIn(loginRequest));
     }
@@ -98,7 +98,7 @@ public class AuthServiceTest {
 
         // verify that the user was created successfully
         assertTrue(userRepository.existsByUsername(signupRequest.getUsername()));
-        User user = userRepository.findByUsername(signupRequest.getUsername()).orElse(null);
+        User user = userRepository.findByEmail(signupRequest.getEmail()).orElse(null);
         assertNotNull(user);
         assertEquals(user.getEmail(), signupRequest.getEmail());
         assertTrue(passwordEncoder.matches(signupRequest.getPassword(), user.getPassword()));
