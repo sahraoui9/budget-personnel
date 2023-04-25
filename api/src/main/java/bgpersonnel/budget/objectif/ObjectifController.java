@@ -54,6 +54,9 @@ public class ObjectifController {
         return ResponseEntity.ok(progression);
     }
 
-
+    @GetMapping("/objectifs/{id}/verifier")
+    public ResponseEntity<Boolean> isObjectifAtteint(@PathVariable Long id) {
+        return ResponseEntity.ok(objectifService.isObjectifAtteint(id));
+    }
 
 }
