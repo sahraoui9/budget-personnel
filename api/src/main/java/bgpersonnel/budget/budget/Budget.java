@@ -1,0 +1,35 @@
+package bgpersonnel.budget.budget;
+
+import bgpersonnel.budget.authentification.entity.User;
+import bgpersonnel.budget.category.Category;
+import bgpersonnel.budget.model.BaseEntity;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+public class Budget extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    private String description;
+
+    private Double maxAmount;
+    private boolean isGlobal;
+
+    @Enumerated(EnumType.STRING)
+    private BudgetType type;
+
+    @OneToOne
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private User user;
+}
