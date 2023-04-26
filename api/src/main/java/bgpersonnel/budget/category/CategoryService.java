@@ -1,17 +1,22 @@
 package bgpersonnel.budget.category;
 
+import bgpersonnel.budget.authentification.common.entity.User;
+import bgpersonnel.budget.authentification.common.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class CategoryService {
     private final CategoryRepository  categoryRepository;
+    private final UserService userService;
     
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, UserService userService) {
         this.categoryRepository = categoryRepository;
+        this.userService = userService;
     }
 
     /**
@@ -28,6 +33,10 @@ public class CategoryService {
      * @return catégorie sauvegarder avec son id.
      */
     public Category create(Category category) {
+        User user = this.userService.getConnectedUser();
+        category.setUser(user);
+        category.setCreatedAt(LocalDateTime.now());
+        category.setCreatedBy(user.getName());
         return categoryRepository.save(category);
     }
 
@@ -37,6 +46,10 @@ public class CategoryService {
      * @return la catégorie avec les nouvelles données.
      */
     public Category update(Category category){
+        User user = this.userService.getConnectedUser();
+        category.setUser(user);
+        category.setUpdatedAt(LocalDateTime.now());
+        category.setUpdatedBy(user.getName());
         return this.categoryRepository.save(category);
     }
 

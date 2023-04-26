@@ -3,12 +3,9 @@ package bgpersonnel.budget.transaction;
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.services.UserService;
 import bgpersonnel.budget.category.Category;
-import bgpersonnel.budget.category.CategoryRepository;
 import bgpersonnel.budget.category.CategoryService;
 import bgpersonnel.budget.objectif.Objectif;
 import bgpersonnel.budget.objectif.ObjectifService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,25 +13,24 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserService userService;
     private final CategoryService categoryService;
-
-    @Autowired
-    private ObjectifService objectifService;
+    private final ObjectifService objectifService;
 
     public TransactionService(
             TransactionRepository transactionRepository,
             UserService userService,
-            CategoryService categoryService
+            CategoryService categoryService,
+            ObjectifService objectifService
     ) {
         this.transactionRepository = transactionRepository;
         this.userService = userService;
         this.categoryService = categoryService;
+        this.objectifService = objectifService;
     }
 
     /**
@@ -48,12 +44,15 @@ public class TransactionService {
     /**
      * Sauvegarde une nouvelle transaction dans la base de données en fonction du user
      * @param transaction à sauvegarder
-     * @param userId id de l'utilisateur qui fait la transaction
      * @return transaction sauvegarder avec son id.
      */
-    public Transaction create(Transaction transaction, long userId) {
-        User user = this.userService.findById(userId);
+    public Transaction create(Transaction transaction) {
+        User user = this.userService.getConnectedUser();
+
         transaction.setUser(user);
+        transaction.setCreatedAt(LocalDateTime.now());
+        transaction.setCreatedBy(user.getName());
+
         Transaction savedTransaction = transactionRepository.save(transaction);
         Objectif objectif = transaction.getObjectif();
         if (objectif != null) {
@@ -61,7 +60,6 @@ public class TransactionService {
         }
 
         return savedTransaction;
-
     }
 
     /**
@@ -70,6 +68,9 @@ public class TransactionService {
      * @return la transaction avec les nouvelles données.
      */
     public Transaction update(Transaction transaction){
+        User user = this.userService.getConnectedUser();
+        transaction.setUpdatedAt(LocalDateTime.now());
+        transaction.setUpdatedBy(user.getName());
         return this.transactionRepository.save(transaction);
     }
 
@@ -91,7 +92,7 @@ public class TransactionService {
      * @return les transactions portant l'id de la catégorie passé en paramètre
      */
     public List<Transaction> findByCategory(Long id) {
-        return transactionRepository.findByCategory(id);
+        return transactionRepository.findByCategoryAndUser(id, this.userService.getIdConnectedUser());
     }
 
 
@@ -104,7 +105,7 @@ public class TransactionService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime dateTime = LocalDateTime.parse(strDateTime, formatter);
 
-        return transactionRepository.findByDateTransaction(dateTime);
+        return transactionRepository.findByDateTransactionAndUser(dateTime, this.userService.getIdConnectedUser());
     }
 
     /**

@@ -6,10 +6,7 @@ import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.model.BaseEntity;
 import bgpersonnel.budget.objectif.Objectif;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Transaction extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +24,6 @@ public class Transaction extends BaseEntity {
     private String description;
     private LocalDateTime dateTransaction;
     private TypeTransaction typeTransaction;
-
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;

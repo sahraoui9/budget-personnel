@@ -14,12 +14,12 @@ public class TransactionController {
         this.service = service;
     }
 
-    @PostMapping("/user/{userId}")
-    public Transaction create(@RequestBody Transaction transaction, @PathVariable long userId) {
-        return service.create(transaction, userId);
+    @PostMapping
+    public Transaction create(@RequestBody Transaction transaction) {
+        return service.create(transaction);
     }
 
-    @PutMapping("{id}")
+    @PutMapping
     public Transaction update(@RequestBody Transaction transaction) {
         return service.update(transaction);
     }
