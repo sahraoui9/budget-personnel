@@ -1,0 +1,80 @@
+package bgpersonnel.budget.service.excel;
+
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.List;
+
+@Service
+@Slf4j
+public class ExcelGeneratorImpl<T> implements ExcelGenerator<T> {
+
+    private Workbook workbook;
+
+    @Override
+    public ByteArrayInputStream generateExcel(List<T> data, String[] headers) {
+        try {
+            workbook = new SXSSFWorkbook(); // Use SXSSFWorkbook for batch writing
+            Sheet sheet = workbook.createSheet("Sheet1");
+            createHeaders(headers, sheet);
+            write(data, sheet);
+
+            // Write the workbook data to a byte array
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            workbook.write(byteArrayOutputStream);
+            byteArrayOutputStream.toByteArray();
+
+            // Close the workbook
+            workbook.close();
+
+            return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        } catch (Exception e) {
+            throw new RuntimeException("fail to import data to Excel file: " + e.getMessage());
+        }
+    }
+
+    private void write(List<T> data, Sheet sheet) {
+        int rowCount = 1;
+        for (T record : data) {
+            Row row = sheet.createRow(rowCount++);
+            int columnCount = 0;
+            for (Field field : record.getClass().getDeclaredFields()) {
+                String fieldName = field.getName();
+                // Get the value of the field from the object record
+                Object fieldValue = getFieldValueFromObject(record, fieldName);
+                // Insert the value of the field in the Excel sheet cell
+                Cell cell = row.createCell(columnCount++);
+                cell.setCellValue(fieldValue != null ? String.valueOf(fieldValue) : "");
+            }
+        }
+    }
+
+    private static void createHeaders(String[] headers, Sheet sheet) {
+        // Create the first row for headers
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+    }
+
+    private Object getFieldValueFromObject(T obj, String fieldName) {
+        try {
+            Class<?> clazz = obj.getClass();
+            String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+            Method getterMethod = clazz.getMethod(getterName);
+            return getterMethod.invoke(obj);
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting field value for field " + fieldName, e);
+        }
+    }
+}
