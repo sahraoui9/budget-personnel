@@ -2,9 +2,7 @@ package bgpersonnel.budget.transaction;
 
 public enum TypeTransaction {
     DEPENSE("Dépense"),
-    REVENU("Revenu"),
-    EPARGNE("Épargne");
-
+    REVENU("Revenu");
     private final String name;
 
     TypeTransaction(String name) {

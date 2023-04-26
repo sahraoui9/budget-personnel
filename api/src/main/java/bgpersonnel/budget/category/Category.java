@@ -1,9 +1,11 @@
 package bgpersonnel.budget.category;
 
+import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.budget.Budget;
 import bgpersonnel.budget.model.BaseEntity;
 import bgpersonnel.budget.transaction.Transaction;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Category extends BaseEntity {
 
     @Id
@@ -21,9 +24,10 @@ public class Category extends BaseEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Transaction> transactions = new ArrayList<>();
-
     @OneToOne(mappedBy = "category")
     private Budget budget;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 }

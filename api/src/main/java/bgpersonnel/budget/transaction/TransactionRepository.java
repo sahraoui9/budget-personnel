@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    List<Transaction> findByCategory(long id);
+    List<Transaction> findByCategoryAndUser(long id, Long userId);
 
-    List<Transaction> findByDateTransaction(LocalDateTime localDateTime);
+    List<Transaction> findByDateTransactionAndUser(LocalDateTime localDateTime, Long userId);
 }
