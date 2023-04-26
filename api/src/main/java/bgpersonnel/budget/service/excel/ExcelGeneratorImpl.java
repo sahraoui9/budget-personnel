@@ -1,5 +1,6 @@
 package bgpersonnel.budget.service.excel;
 
+import bgpersonnel.budget.service.GeneratorHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.List;
 
 @Service
@@ -50,7 +50,7 @@ public class ExcelGeneratorImpl<T> implements ExcelGenerator<T> {
             for (Field field : record.getClass().getDeclaredFields()) {
                 String fieldName = field.getName();
                 // Get the value of the field from the object record
-                Object fieldValue = getFieldValueFromObject(record, fieldName);
+                Object fieldValue = GeneratorHelper.getFieldValueFromObject(record, fieldName);
                 // Insert the value of the field in the Excel sheet cell
                 Cell cell = row.createCell(columnCount++);
                 cell.setCellValue(fieldValue != null ? String.valueOf(fieldValue) : "");
@@ -67,14 +67,4 @@ public class ExcelGeneratorImpl<T> implements ExcelGenerator<T> {
         }
     }
 
-    private Object getFieldValueFromObject(T obj, String fieldName) {
-        try {
-            Class<?> clazz = obj.getClass();
-            String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-            Method getterMethod = clazz.getMethod(getterName);
-            return getterMethod.invoke(obj);
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting field value for field " + fieldName, e);
-        }
-    }
 }

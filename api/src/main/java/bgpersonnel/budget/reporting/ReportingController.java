@@ -33,6 +33,10 @@ public class ReportingController {
             filename = "tutorials.xlsx";
             contentType = "application/vnd.ms-excel";
         }
+        if (reportRequest.getReportType().equals(ETypeReport.PDF)) {
+            filename = "tutorials.pdf";
+            contentType = "application/pdf";
+        }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType(contentType))
