@@ -10,6 +10,7 @@ import bgpersonnel.budget.objectif.ObjectifService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserService userService;

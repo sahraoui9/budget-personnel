@@ -1,6 +1,6 @@
 package bgpersonnel.budget.budget;
 
-import bgpersonnel.budget.authentification.entity.User;
+import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.model.BaseEntity;
 import jakarta.persistence.*;
