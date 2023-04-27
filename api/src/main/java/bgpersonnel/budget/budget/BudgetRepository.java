@@ -22,6 +22,13 @@ public interface BudgetRepository extends JpaRepository<Budget, Long>{
     Double calculateAnnualGlobalBudgetForYear(Integer year, Long userId);
 
 
+    @Query(value = "SELECT SUM(CASE WHEN t.typeTransaction = 'REVENU' THEN t.amount ELSE 0 END) - SUM(CASE WHEN t.typeTransaction = 'EPARGNE' OR t.typeTransaction = 'DEPENSE' THEN t.amount ELSE 0 END) "
+            + "FROM Transaction t "
+            + "WHERE t.user.id = :userId")
+    Double calculateGlobalBudget(Long userId);
+
+
+
 
     @Query(value = "SELECT YEAR(t.dateTransaction) as year, SUM(CASE WHEN t.typeTransaction = 'REVENU' THEN t.amount ELSE 0 END) - SUM(CASE WHEN t.typeTransaction IN ('EPARGNE', 'DEPENSE') THEN t.amount ELSE 0 END) as totalBudget "
             + "FROM Transaction t "
@@ -75,6 +82,14 @@ public interface BudgetRepository extends JpaRepository<Budget, Long>{
             + "AND b.id = :budgetId "
             + "AND t.user.id = :userId")
     Double calculateAnnualBudgetForYearAndCategory(Integer year, Long userId, Long budgetId);
+
+    @Query(value = "SELECT SUM(CASE WHEN t.typeTransaction = 'REVENUE' THEN t.amount ELSE 0 END) - SUM(CASE WHEN t.typeTransaction = 'EXPENSE' OR t.typeTransaction = 'SAVING' THEN t.amount ELSE 0 END) "
+            + "FROM Transaction t "
+            +" JOIN Category c ON t.category.id = c.id "
+            +" JOIN Budget b ON c.id = b.category.id  "
+            + "WHERE b.id = :budgetId "
+            + "AND t.user.id = :userId")
+    Double calculateBudgetForCategory( Long userId, Long budgetId);
 
 
 

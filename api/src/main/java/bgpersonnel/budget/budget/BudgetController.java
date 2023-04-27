@@ -49,60 +49,56 @@ public class BudgetController {
     }
 
 
-    @GetMapping("/annual-global/{userId}/{year}")
-    public ResponseEntity<Double> calculateAnnualGlobalBudgetForYear(@PathVariable("userId") Long userId,  @PathVariable("year") Integer year) {
-        double result = budgetService.calculateAnnualGlobalBudgetForYear(userId, year);
+    @GetMapping("/annual-global/{year}")
+    public ResponseEntity<Double> calculateAnnualGlobalBudgetForYear(  @PathVariable("year") Integer year) {
+        double result = budgetService.calculateAnnualGlobalBudgetForYear( year);
         return ResponseEntity.ok().body(result);
     }
 
-    @GetMapping("/annual-global/{userId}")
-    public ResponseEntity<List<Map<String, Object>>> getTotalAnnualBudgetsByYearAndUser(@PathVariable Long userId) {
-        List<Map<String, Object>> budgetList = budgetService.getTotalAnnualBudgetsByYearAndUser(userId);
+    @GetMapping("/annual-global/")
+    public ResponseEntity<List<Map<String, Object>>> getTotalAnnualBudgetsByYearAndUser() {
+        List<Map<String, Object>> budgetList = budgetService.getTotalAnnualBudgetsByYearAndUser();
         return ResponseEntity.ok(budgetList);
     }
 
-    @GetMapping("/monthly-global/{userId}/{month}/{year}")
-    public ResponseEntity<Double> calculateMonthlyGlobalBudgetForYearAndMonth(@PathVariable Long userId, @PathVariable Integer month, @PathVariable Integer year) {
-        Double budget = budgetService.calculateMonthlyGlobalBudgetForYearAndMonth(userId, month, year);
+    @GetMapping("/monthly-global/{month}/{year}")
+    public ResponseEntity<Double> calculateMonthlyGlobalBudgetForYearAndMonth( @PathVariable Integer month, @PathVariable Integer year) {
+        Double budget = budgetService.calculateMonthlyGlobalBudgetForYearAndMonth( month, year);
         return ResponseEntity.ok(budget);
     }
 
-    @GetMapping("/monthly-global/{id}/{year}")
-    public ResponseEntity<List<Map<String, Object>>> getMonthlyGlobalBudgetForYear(@PathVariable("id") Long id,
-                                                                                   @PathVariable("year") Integer year) {
-        List<Map<String, Object>> budgetList = budgetService.calculateMonthlyGlobalBudgetForYear(id, year);
+    @GetMapping("/monthly-global/{year}")
+    public ResponseEntity<List<Map<String, Object>>> getMonthlyGlobalBudgetForYear(@PathVariable("year") Integer year) {
+        List<Map<String, Object>> budgetList = budgetService.calculateMonthlyGlobalBudgetForYear( year);
         return ResponseEntity.ok().body(budgetList);
     }
 
 
-    @GetMapping("/monthly-category/{year}/{userId}/{budgetId}")
-    public ResponseEntity<List<Map<String, Object>>> calculateMonthlyBudgetForYearAndCategory(@PathVariable Integer year, @PathVariable Long userId, @PathVariable Long budgetId) {
-        List<Map<String, Object>> result = budgetService.calculateMonthlyBudgetForYearAndCategory(year, userId, budgetId);
+    @GetMapping("/monthly-category/{year}/{budgetId}")
+    public ResponseEntity<List<Map<String, Object>>> calculateMonthlyBudgetForYearAndCategory(@PathVariable Integer year, @PathVariable Long budgetId) {
+        List<Map<String, Object>> result = budgetService.calculateMonthlyBudgetForYearAndCategory(year, budgetId);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/monthly-category/{userId}/monthly/{year}/{month}/{budgetId}")
-    public ResponseEntity<Double> getMonthlyBudgetForYearAndMonthAndCategory(@PathVariable Long userId,
-                                                                                   @PathVariable Integer month,
+    @GetMapping("/monthly-category/monthly/{year}/{month}/{budgetId}")
+    public ResponseEntity<Double> getMonthlyBudgetForYearAndMonthAndCategory(@PathVariable Integer month,
                                                                                    @PathVariable Integer year,
                                                                                    @PathVariable Long budgetId) {
-        Double monthlyGlobalBudget = budgetService.calculateMonthlyBudgetForYearAndMonthAndCategory(userId, month, year, budgetId);
+        Double monthlyGlobalBudget = budgetService.calculateMonthlyBudgetForYearAndMonthAndCategory( month, year, budgetId);
         return ResponseEntity.ok(monthlyGlobalBudget);
     }
 
-    @GetMapping("/annual-category/{userId}/{budgetId}")
-    public ResponseEntity<List<Map<String, Object>>> getTotalAnnualBudgetsByYearAndUserAndCategory(@PathVariable Long userId, @RequestParam Long budgetId) {
-        List<Map<String, Object>> result = budgetService.getTotalAnnualBudgetsByYearAndUserAndCategory(userId, budgetId);
+    @GetMapping("/annual-category/{budgetId}")
+    public ResponseEntity<List<Map<String, Object>>> getTotalAnnualBudgetsByYearAndUserAndCategory(@RequestParam Long budgetId) {
+        List<Map<String, Object>> result = budgetService.getTotalAnnualBudgetsByYearAndUserAndCategory( budgetId);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/annual-category/{year}/{userId}/{budgetId}")
-    public ResponseEntity<Double> calculateAnnualBudgetForYearAndCategory(
-            @PathVariable Long userId,
-            @PathVariable Long budgetId,
+    @GetMapping("/annual-category/{year}/{budgetId}")
+    public ResponseEntity<Double> calculateAnnualBudgetForYearAndCategory(@PathVariable Long budgetId,
             @PathVariable Integer year) {
 
-        Double annualGlobalBudget = budgetService.calculateAnnualBudgetForYearAndCategory(year, userId, budgetId);
+        Double annualGlobalBudget = budgetService.calculateAnnualBudgetForYearAndCategory(year, budgetId);
 
         if (annualGlobalBudget == null) {
             return ResponseEntity.notFound().build();

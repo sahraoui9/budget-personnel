@@ -33,7 +33,7 @@ public class UserService {
         return findUserByEmail(userDetails.getEmail());
     }
 
-    public Long getIdConnectedUser() {
+    public static Long getIdConnectedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return userDetails.getId();
