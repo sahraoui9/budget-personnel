@@ -2,6 +2,8 @@ package bgpersonnel.budget.transaction;
 
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.services.UserService;
+import bgpersonnel.budget.budget.Budget;
+import bgpersonnel.budget.budget.BudgetService;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.category.CategoryService;
 import bgpersonnel.budget.objectif.Objectif;
@@ -24,16 +26,20 @@ public class TransactionService {
     private final ObjectifService objectifService;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    private final BudgetService budgetService;
+
     public TransactionService(
             TransactionRepository transactionRepository,
             UserService userService,
             CategoryService categoryService,
-            ObjectifService objectifService
+            ObjectifService objectifService,
+            BudgetService budgetService
     ) {
         this.transactionRepository = transactionRepository;
         this.userService = userService;
         this.categoryService = categoryService;
         this.objectifService = objectifService;
+        this.budgetService = budgetService;
     }
 
     /**
@@ -61,7 +67,10 @@ public class TransactionService {
         if (objectif != null) {
             boolean objectifAtteint = objectifService.isObjectifAtteint(objectif.getId());
         }
-
+        Budget budget = transaction.getCategory().getBudget();
+        if (budget != null) {
+            boolean budgetDepasse = budgetService.isBudgetDepasse(budget.getId());
+        }
         return savedTransaction;
     }
 

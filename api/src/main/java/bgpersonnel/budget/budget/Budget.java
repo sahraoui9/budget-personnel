@@ -4,11 +4,13 @@ import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Budget extends BaseEntity {
 
@@ -22,6 +24,8 @@ public class Budget extends BaseEntity {
 
     private Double maxAmount;
     private boolean isGlobal;
+
+    private boolean isEssential;
 
     @Enumerated(EnumType.STRING)
     private BudgetType type;
