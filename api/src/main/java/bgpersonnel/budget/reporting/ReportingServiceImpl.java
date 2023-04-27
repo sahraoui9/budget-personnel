@@ -1,8 +1,12 @@
 package bgpersonnel.budget.reporting;
 
+
+import bgpersonnel.budget.authentification.common.services.UserService;
 import bgpersonnel.budget.service.csv.CsvGenerator;
 import bgpersonnel.budget.service.excel.ExcelGenerator;
 import bgpersonnel.budget.service.pdf.PdfGenerator;
+import bgpersonnel.budget.transaction.Transaction;
+import bgpersonnel.budget.transaction.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -12,16 +16,21 @@ import java.util.List;
 public class ReportingServiceImpl implements ReportingService {
 
     // csv
-    private CsvGenerator<DataReport> csvGenerator;
+    private final CsvGenerator<DataReport> csvGenerator;
     // excel
-    private ExcelGenerator<DataReport> excelGenerator;
+    private final ExcelGenerator<DataReport> excelGenerator;
     // pdf
-    private PdfGenerator<DataReport> pdfGenerator;
+    private final PdfGenerator<DataReport> pdfGenerator;
 
-    public ReportingServiceImpl(CsvGenerator csvGenerator, ExcelGenerator excelGenerator, PdfGenerator pdfGenerator) {
+    // transaction repository
+    private TransactionRepository transactionRepository;
+
+    public ReportingServiceImpl(CsvGenerator csvGenerator, ExcelGenerator excelGenerator, PdfGenerator pdfGenerator,
+                                TransactionRepository transactionRepository) {
         this.csvGenerator = csvGenerator;
         this.excelGenerator = excelGenerator;
         this.pdfGenerator = pdfGenerator;
+        this.transactionRepository = transactionRepository;
     }
 
     @Override
@@ -30,6 +39,9 @@ public class ReportingServiceImpl implements ReportingService {
                 new DataReport("test", "test2"),
                 new DataReport("test3", "test4")
         );
+        Long userId = UserService.getIdConnectedUser();
+       // List<Transaction> transactions = transactionRepository.findAllByUserBetweenTwoDatesAndByCategory(userId, reportRequest.getStartDate(), reportRequest.getEndDate(), reportRequest.getCategoryId());
+        //System.out.println(transactions);
         if (reportRequest.getReportType().equals(ETypeReport.CSV)) {
             return csvGenerator.generateCSV(donnees);
         }

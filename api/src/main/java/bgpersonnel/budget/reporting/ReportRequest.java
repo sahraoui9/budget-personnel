@@ -12,4 +12,5 @@ public class ReportRequest {
     private LocalDate startDate;
     private LocalDate endDate;
     private ETypeReport reportType;
+    private Long categoryId;
 }

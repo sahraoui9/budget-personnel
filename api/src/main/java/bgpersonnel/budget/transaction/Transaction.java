@@ -16,6 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Transaction extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -23,7 +23,7 @@ public class PdfGeneratorImpl<T> implements PdfGenerator<T> {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         // Générer le contenu HTML du PDF avec le titre et le tableau
-        String htmlContent = "<h1> List </h1>" +
+        String htmlContent = "<h1 style='color:red'> List </h1>" +
                 "<table>";
         for (String header : headers) {
             htmlContent += "<th>" + header + "</th>";
@@ -40,7 +40,7 @@ public class PdfGeneratorImpl<T> implements PdfGenerator<T> {
             htmlContent += "</tr>";
         }
         htmlContent += "</table>";
-        
+
         ConverterProperties converterProperties = new ConverterProperties();
         HtmlConverter.convertToPdf(htmlContent, outputStream, converterProperties);
 
