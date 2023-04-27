@@ -72,4 +72,10 @@ public class CategoryService {
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
     }
+
+
+    public List<Category> findByUser(User user) {
+        return categoryRepository.findByUser(user);
+    }
+
 }

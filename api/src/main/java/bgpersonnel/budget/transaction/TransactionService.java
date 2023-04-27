@@ -6,12 +6,14 @@ import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.category.CategoryService;
 import bgpersonnel.budget.objectif.Objectif;
 import bgpersonnel.budget.objectif.ObjectifService;
+import bgpersonnel.budget.transaction.response.SumTransactionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +22,7 @@ public class TransactionService {
     private final UserService userService;
     private final CategoryService categoryService;
     private final ObjectifService objectifService;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public TransactionService(
             TransactionRepository transactionRepository,
@@ -92,7 +95,8 @@ public class TransactionService {
      * @return les transactions portant l'id de la catégorie passé en paramètre
      */
     public List<Transaction> findByCategory(Long id) {
-        return transactionRepository.findByCategoryAndUser(id, this.userService.getIdConnectedUser());
+        Category category = categoryService.findById(id);
+        return transactionRepository.findByCategoryAndUser(category, this.userService.getConnectedUser());
     }
 
 
@@ -105,7 +109,7 @@ public class TransactionService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime dateTime = LocalDateTime.parse(strDateTime, formatter);
 
-        return transactionRepository.findByDateTransactionAndUser(dateTime, this.userService.getIdConnectedUser());
+        return transactionRepository.findByDateTransactionAndUser(dateTime, this.userService.getConnectedUser());
     }
 
     /**
@@ -129,5 +133,58 @@ public class TransactionService {
         transaction.setCategory(category);
 
         return this.transactionRepository.save(transaction);
+    }
+
+    public List<SumTransactionResponse> getSumTransactionByCategoriesAndYear(Year year) {
+        User user = this.userService.getConnectedUser();
+        List<Category> categories = categoryService.findByUser(user);
+
+        LocalDateTime dateDebut = LocalDateTime.of(year.atDay(1), LocalTime.of(0, 0));
+        LocalDateTime dateFin = LocalDateTime.of(year.atMonth(12).atEndOfMonth(), LocalTime.of(0, 0));
+
+        return getSumOfTransactionsByDate(categories, dateDebut, dateFin);
+    }
+
+    public List<SumTransactionResponse> getSumTransactionByCategoriesAndMonth(YearMonth yearMonth) {
+        User user = this.userService.getConnectedUser();
+        List<Category> categories = categoryService.findByUser(user);
+
+        LocalDateTime dateDebut = LocalDateTime.of(yearMonth.atDay(1), LocalTime.of(0, 0));
+        LocalDateTime dateFin = LocalDateTime.of(yearMonth.atEndOfMonth(), LocalTime.of(0, 0));
+
+        return getSumOfTransactionsByDate(categories, dateDebut, dateFin);
+    }
+
+    public List<SumTransactionResponse> getSumOfTransactionsByDate(
+            List<Category> categories,
+            LocalDateTime dateDebut,
+            LocalDateTime dateFin
+    ) {
+        List<SumTransactionResponse> result = new ArrayList<>();
+        for (Category category: categories) {
+            List<Transaction> transactions =
+                    transactionRepository.findByCategoryAndDateTransactionBetween(category, dateDebut, dateFin);
+            double depense = 0.0;
+            double revenu = 0.0;
+            for (Transaction transaction : transactions) {
+                if (transaction.getTypeTransaction() == TypeTransaction.DEPENSE) {
+                    depense += transaction.getAmount();
+                } else {
+                    revenu += transaction.getAmount();
+                }
+            }
+
+            result.add(new SumTransactionResponse(
+                    category.getName(),
+                    depense,
+                    revenu,
+                    (revenu - depense),
+                    transactions.size(),
+                    dateDebut.format(formatter),
+                    dateFin.format(formatter)
+            ));
+        }
+
+        return result;
     }
 }
