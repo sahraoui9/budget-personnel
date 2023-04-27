@@ -5,7 +5,7 @@ public enum ETypeReport {
     PDF("pdf"),
     XLS("xls");
 
-    private String type;
+    private final String type;
 
 
     ETypeReport(String type) {

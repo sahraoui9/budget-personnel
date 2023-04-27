@@ -4,5 +4,5 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 public interface PdfGenerator<T> {
-    public ByteArrayInputStream generatePdf(List<T> data, String[] headers,String html);
+    ByteArrayInputStream generatePdf(List<T> data, String templateHtml,String[] header);
 }

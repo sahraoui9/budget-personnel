@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserUpdateServiceImpl implements UserUpdateService {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     public UserUpdateServiceImpl(UserService userService, PasswordEncoder encoder) {
         this.userService = userService;

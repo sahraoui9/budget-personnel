@@ -5,7 +5,7 @@ import bgpersonnel.budget.authentification.common.services.UserService;
 import bgpersonnel.budget.service.csv.CsvGenerator;
 import bgpersonnel.budget.service.excel.ExcelGenerator;
 import bgpersonnel.budget.service.pdf.PdfGenerator;
-import bgpersonnel.budget.transaction.Transaction;
+import bgpersonnel.budget.transaction.TransactionReportDto;
 import bgpersonnel.budget.transaction.TransactionRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +15,10 @@ import java.util.List;
 @Service
 public class ReportingServiceImpl implements ReportingService {
 
-    // csv
-    private final CsvGenerator<DataReport> csvGenerator;
-    // excel
-    private final ExcelGenerator<DataReport> excelGenerator;
-    // pdf
-    private final PdfGenerator<DataReport> pdfGenerator;
-
-    // transaction repository
-    private TransactionRepository transactionRepository;
+    private final CsvGenerator<TransactionReportDto> csvGenerator;
+    private final ExcelGenerator<TransactionReportDto> excelGenerator;
+    private final PdfGenerator<TransactionReportDto> pdfGenerator;
+    private final TransactionRepository transactionRepository;
 
     public ReportingServiceImpl(CsvGenerator csvGenerator, ExcelGenerator excelGenerator, PdfGenerator pdfGenerator,
                                 TransactionRepository transactionRepository) {
@@ -40,18 +35,15 @@ public class ReportingServiceImpl implements ReportingService {
                 new DataReport("test3", "test4")
         );
         Long userId = UserService.getIdConnectedUser();
-       // List<Transaction> transactions = transactionRepository.findAllByUserBetweenTwoDatesAndByCategory(userId, reportRequest.getStartDate(), reportRequest.getEndDate(), reportRequest.getCategoryId());
-        //System.out.println(transactions);
-        if (reportRequest.getReportType().equals(ETypeReport.CSV)) {
-            return csvGenerator.generateCSV(donnees);
-        }
-        if (reportRequest.getReportType().equals(ETypeReport.XLS)) {
-            return excelGenerator.generateExcel(donnees, new String[]{"test", "test2"});
-        }
-        if (reportRequest.getReportType().equals(ETypeReport.PDF)) {
-            return pdfGenerator.generatePdf(donnees, new String[]{"test", "test2"}, "<h1>test</h1>");
-        }
-        return null;
+        List<TransactionReportDto> transactions = transactionRepository.getTransactionsByUserBetweenDatesAndCategory(userId, reportRequest.getStartDate(), reportRequest.getEndDate(), reportRequest.getCategoryId());
+        String[] header = {"Nom", "Montant", "Date", "Description", "Type de transaction"};
+        return switch (reportRequest.getReportType()) {
+            case CSV -> csvGenerator.generateCSV(transactions, header);
+            case XLS -> excelGenerator.generateExcel(transactions,header);
+            case PDF -> pdfGenerator.generatePdf(transactions, "/report.html",header);
+            default -> throw new IllegalStateException("Unexpected value: " + reportRequest.getReportType());
+        };
+
     }
 
 

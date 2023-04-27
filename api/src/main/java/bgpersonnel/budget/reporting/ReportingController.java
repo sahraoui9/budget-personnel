@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/reports")
 public class ReportingController {
 
-    private ReportingService reportingService;
+    private final ReportingService reportingService;
 
     public ReportingController(ReportingService reportingService) {
         this.reportingService = reportingService;
+
     }
 
     @GetMapping()
@@ -25,21 +26,27 @@ public class ReportingController {
         InputStreamResource file = new InputStreamResource(reportingService.generateReport(reportRequest));
         String filename = null;
         String contentType = null;
-        if (reportRequest.getReportType().equals(ETypeReport.CSV)) {
-            filename = "tutorials.csv";
-            contentType = "text/csv";
+
+        switch (reportRequest.getReportType()) {
+            case CSV -> {
+                filename = "tutorials.csv";
+                contentType = "text/csv";
+            }
+            case XLS -> {
+                filename = "tutorials.xlsx";
+                contentType = "application/vnd.ms-excel";
+            }
+            case PDF -> {
+                filename = "tutorials.pdf";
+                contentType = "application/pdf";
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + reportRequest.getReportType());
         }
-        if (reportRequest.getReportType().equals(ETypeReport.XLS)) {
-            filename = "tutorials.xlsx";
-            contentType = "application/vnd.ms-excel";
-        }
-        if (reportRequest.getReportType().equals(ETypeReport.PDF)) {
-            filename = "tutorials.pdf";
-            contentType = "application/pdf";
-        }
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(file);
     }
+
 }

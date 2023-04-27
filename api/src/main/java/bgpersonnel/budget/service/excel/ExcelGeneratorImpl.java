@@ -20,6 +20,15 @@ public class ExcelGeneratorImpl<T> implements ExcelGenerator<T> {
 
     private Workbook workbook;
 
+    private static void createHeaders(String[] headers, Sheet sheet) {
+        // Create the first row for headers
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+    }
+
     @Override
     public ByteArrayInputStream generateExcel(List<T> data, String[] headers) {
         try {
@@ -55,15 +64,6 @@ public class ExcelGeneratorImpl<T> implements ExcelGenerator<T> {
                 Cell cell = row.createCell(columnCount++);
                 cell.setCellValue(fieldValue != null ? String.valueOf(fieldValue) : "");
             }
-        }
-    }
-
-    private static void createHeaders(String[] headers, Sheet sheet) {
-        // Create the first row for headers
-        Row headerRow = sheet.createRow(0);
-        for (int i = 0; i < headers.length; i++) {
-            Cell cell = headerRow.createCell(i);
-            cell.setCellValue(headers[i]);
         }
     }
 

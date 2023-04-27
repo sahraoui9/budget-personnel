@@ -6,11 +6,12 @@ import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.model.BaseEntity;
 import bgpersonnel.budget.objectif.Objectif;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -23,14 +24,14 @@ public class Transaction extends BaseEntity {
     private Long id;
     private double amount;
     private String description;
-    private LocalDateTime dateTransaction;
+    private LocalDate dateTransaction;
     private TypeTransaction typeTransaction;
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="category_id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne
