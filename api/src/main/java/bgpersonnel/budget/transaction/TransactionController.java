@@ -1,7 +1,10 @@
 package bgpersonnel.budget.transaction;
 
+import bgpersonnel.budget.transaction.response.SumTransactionResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Year;
+import java.time.YearMonth;
 import java.util.List;
 
 @RestController
@@ -53,5 +56,15 @@ public class TransactionController {
     @PutMapping("{transactionId}/category/{categoryId}")
     public Transaction addCategory(@PathVariable long transactionId, @PathVariable long categoryId) {
         return service.addCategory(transactionId, categoryId);
+    }
+
+    @GetMapping("categories/year/{year}")
+    public List<SumTransactionResponse> getSumTransactionByCategories(@PathVariable int year) {
+        return service.getSumTransactionByCategoriesAndYear(Year.of(year));
+    }
+
+    @GetMapping("categories/month/{month}/year/{year}")
+    public List<SumTransactionResponse> getSumTransactionByCategories(@PathVariable int month, @PathVariable int year) {
+        return service.getSumTransactionByCategoriesAndMonth(YearMonth.of(year, month));
     }
 }

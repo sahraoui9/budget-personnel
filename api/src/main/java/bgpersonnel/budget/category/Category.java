@@ -3,14 +3,10 @@ package bgpersonnel.budget.category;
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.budget.Budget;
 import bgpersonnel.budget.model.BaseEntity;
-import bgpersonnel.budget.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -30,4 +26,8 @@ public class Category extends BaseEntity {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    public Category(Long id) {
+        this.id = id;
+    }
 }
