@@ -9,9 +9,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -149,6 +147,39 @@ public class BudgetService {
     }
 
 
+
+    public List<Map<String, Object>> calculateAdjustments() {
+
+        Calendar calendar = Calendar.getInstance();
+        // Récupération du budget mensuel global
+        Double monthlyGlobalBudget = calculateMonthlyGlobalBudgetForYearAndMonth( calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+
+        // Récupération des dépenses mensuelles par catégorie
+        List<Map<String, Object>> monthlyExpensesByCategory = calculateMonthlyGlobalBudgetForYear(calendar.get(Calendar.YEAR));
+
+        // Initialisation de la liste des ajustements
+        List<Map<String, Object>> adjustments = new ArrayList<>();
+
+        // Calcul des ajustements pour chaque catégorie
+        for (Map<String, Object> categoryExpense : monthlyExpensesByCategory) {
+            String categoryName = (String) categoryExpense.get("categoryName");
+            Double categoryExpenseAmount = (Double) categoryExpense.get("expenseAmount");
+            Double categoryBudgetAmount = (Double) categoryExpense.get("budgetAmount");
+
+            // Calcul de l'ajustement pour la catégorie
+            Double categoryAdjustment = (categoryExpenseAmount / monthlyGlobalBudget) * categoryBudgetAmount - categoryExpenseAmount;
+
+            // Ajout de l'ajustement à la liste
+            Map<String, Object> suggestion = new HashMap<>();
+            suggestion.put("from_category", categoryName);
+            suggestion.put("amount_adjustemnt", categoryAdjustment);
+            suggestion.put("suggestion", "Réaffecter des fonds depuis cette catégorie.");
+            adjustments.add(suggestion);
+
+        }
+
+        return adjustments;
+    }
 
 
 }
