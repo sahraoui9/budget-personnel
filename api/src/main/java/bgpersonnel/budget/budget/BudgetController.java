@@ -108,6 +108,13 @@ public class BudgetController {
     }
 
 
+    @GetMapping("/adjustement/")
+    public ResponseEntity<List<Map<String, Object>>> getAdjustement() {
+        List<Map<String, Object>> result = budgetService.calculateAdjustments();
+        return ResponseEntity.ok(result);
+    }
+
+
 
 
 
