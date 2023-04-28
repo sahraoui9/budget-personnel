@@ -8,7 +8,8 @@ import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.category.CategoryService;
 import bgpersonnel.budget.objectif.Objectif;
 import bgpersonnel.budget.objectif.ObjectifService;
-import bgpersonnel.budget.transaction.response.SumTransactionResponse;
+import bgpersonnel.budget.transaction.dto.SuggestionEconomieDto;
+import bgpersonnel.budget.transaction.dto.SumTransactionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -144,7 +146,60 @@ public class TransactionService {
         return this.transactionRepository.save(transaction);
     }
 
-    public List<SumTransactionResponse> getSumTransactionByCategoriesAndYear(Year year) {
+    /**
+     * Retourne une liste de catégorie ou les dépenses sont trop importnates par rapport aux autres catégorie.
+     */
+    public List<SuggestionEconomieDto> getSuggestionEconomie() {
+        Year year = Year.now();
+        User user = this.userService.getConnectedUser();
+        int nbCategories = this.categoryService.countByUser(user);
+        List<SuggestionEconomieDto> suggestionEconomieDtos = new ArrayList<>();
+
+        LocalDateTime dateDebut = LocalDateTime.of(year.atDay(1), LocalTime.of(0, 0));
+        LocalDateTime dateFin = LocalDateTime.of(year.atMonth(12).atEndOfMonth(), LocalTime.of(0, 0));
+
+        List<Transaction> transactions = transactionRepository.findByUserAndDateTransactionBetween(
+                user,
+                dateDebut,
+                dateFin
+        );
+
+        double depenseTotal = 0.0;
+        for (Transaction transaction : transactions) {
+            if (transaction.getTypeTransaction() == TypeTransaction.DEPENSE) {
+                depenseTotal += transaction.getAmount();
+            }
+        }
+
+        if (nbCategories > 0 && depenseTotal > 0.0) {
+            // Chaque catégorie doit être dans ce pourcentage, si pourcentage trop important
+            // pour une catégorie, lévé une alerte pour signifier que des économies peuvent être fait sur cette catégorie.
+            // Cela montrera qu'il y a trop de dépences dans une catégorie.
+            double percentagePerCategory = 100.0 / nbCategories;
+            List<SumTransactionDto> sumTransactionDtos = getSumTransactionByCategoriesAndYear(year);
+
+            for (SumTransactionDto sumTransactionDto : sumTransactionDtos) {
+                double percentage = sumTransactionDto.getSumDepense() * 100 / depenseTotal;
+
+                if (percentage > percentagePerCategory + 5) {
+                    // Alerter sur cette catégorie.
+                    SuggestionEconomieDto suggestionEconomieDto = new SuggestionEconomieDto();
+                    suggestionEconomieDto.setName(sumTransactionDto.getName());
+                    suggestionEconomieDto.setDepense(sumTransactionDto.getSumDepense());
+                    suggestionEconomieDto.setDepenseTotal(depenseTotal);
+                    suggestionEconomieDto.setPercentage(percentage);
+                    suggestionEconomieDto.setPercentagePerCategory(percentagePerCategory);
+                    suggestionEconomieDto.setDateDebut(dateDebut);
+                    suggestionEconomieDto.setDateFin(dateFin);
+
+                    suggestionEconomieDtos.add(suggestionEconomieDto);
+                }
+            }
+        }
+        return suggestionEconomieDtos;
+    }
+
+    public List<SumTransactionDto> getSumTransactionByCategoriesAndYear(Year year) {
         User user = this.userService.getConnectedUser();
         List<Category> categories = categoryService.findByUser(user);
 
@@ -154,7 +209,7 @@ public class TransactionService {
         return getSumOfTransactionsByDate(categories, dateDebut, dateFin);
     }
 
-    public List<SumTransactionResponse> getSumTransactionByCategoriesAndMonth(YearMonth yearMonth) {
+    public List<SumTransactionDto> getSumTransactionByCategoriesAndMonth(YearMonth yearMonth) {
         User user = this.userService.getConnectedUser();
         List<Category> categories = categoryService.findByUser(user);
 
@@ -164,17 +219,18 @@ public class TransactionService {
         return getSumOfTransactionsByDate(categories, dateDebut, dateFin);
     }
 
-    public List<SumTransactionResponse> getSumOfTransactionsByDate(
+    private List<SumTransactionDto> getSumOfTransactionsByDate(
             List<Category> categories,
             LocalDateTime dateDebut,
             LocalDateTime dateFin
     ) {
-        List<SumTransactionResponse> result = new ArrayList<>();
+        List<SumTransactionDto> result = new ArrayList<>();
         for (Category category: categories) {
             List<Transaction> transactions =
                     transactionRepository.findByCategoryAndDateTransactionBetween(category, dateDebut, dateFin);
             double depense = 0.0;
             double revenu = 0.0;
+
             for (Transaction transaction : transactions) {
                 if (transaction.getTypeTransaction() == TypeTransaction.DEPENSE) {
                     depense += transaction.getAmount();
@@ -183,7 +239,7 @@ public class TransactionService {
                 }
             }
 
-            result.add(new SumTransactionResponse(
+            result.add(new SumTransactionDto(
                     category.getName(),
                     depense,
                     revenu,
@@ -193,6 +249,8 @@ public class TransactionService {
                     dateFin.format(formatter)
             ));
         }
+
+        result.sort(Comparator.comparingDouble(SumTransactionDto::getTotal));
 
         return result;
     }

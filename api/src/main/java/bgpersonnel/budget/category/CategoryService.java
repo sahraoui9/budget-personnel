@@ -68,6 +68,9 @@ public class CategoryService {
         return categoryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    public int countByUser(User user) {
+        return categoryRepository.countByUser(user);
+    }
 
     /**
      * supprime une catégorie en fonction de son id.
