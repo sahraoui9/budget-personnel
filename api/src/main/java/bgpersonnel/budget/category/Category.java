@@ -24,7 +24,7 @@ public class Category extends BaseEntity {
     private Budget budget;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Category(Long id) {

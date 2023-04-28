@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
@@ -57,7 +58,7 @@ public class TransactionTest {
         this.transaction = new Transaction();
         this.transaction.setId(1L);
         this.transaction.setAmount(275.0);
-        this.transaction.setDateTransaction(LocalDateTime.now());
+        this.transaction.setDateTransaction(LocalDate.now());
         this.transaction.setTypeTransaction(TypeTransaction.DEPENSE);
         this.transaction.setDescription("Transaction test unitaire");
 
