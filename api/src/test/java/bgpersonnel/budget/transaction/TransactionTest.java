@@ -4,6 +4,7 @@ import bgpersonnel.budget.authentification.common.entity.ERole;
 import bgpersonnel.budget.authentification.common.entity.Role;
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.services.UserService;
+import bgpersonnel.budget.budget.BudgetService;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.category.CategoryService;
 import bgpersonnel.budget.objectif.ObjectifService;
@@ -42,9 +43,16 @@ public class TransactionTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         ObjectifService objectifService = Mockito.mock(ObjectifService.class);
+        BudgetService budgetService = Mockito.mock(BudgetService.class);
         userService = Mockito.mock(UserService.class);
         categoryService = Mockito.mock(CategoryService.class);
-        transactionService = new TransactionService(transactionRepository, userService, categoryService, objectifService);
+        transactionService = new TransactionService(
+                transactionRepository,
+                userService,
+                categoryService,
+                objectifService,
+                budgetService
+        );
 
         this.transaction = new Transaction();
         this.transaction.setId(1L);
@@ -57,16 +65,20 @@ public class TransactionTest {
         SecurityContextHolder.setContext(new SecurityContextImpl());
     }
 
-    @Test
-    @DisplayName("Création d'un transaction")
-    public void createTransactionTest() {
+    private User createUser() {
         User user = new User();
         user.setId(1L);
         user.setName("Test User");
         user.setEmail("test@example.com");
         user.setRoles(Set.of(new Role(1, ERole.ROLE_USER)));
 
-        when(userService.getConnectedUser()).thenReturn(user);
+        return user;
+    }
+    @Test
+    @DisplayName("Création d'un transaction")
+    public void createTransactionTest() {
+
+        when(userService.getConnectedUser()).thenReturn(createUser());
         transactionService.create(transaction);
 
         assertEquals(1L, transaction.getUser().getId());
@@ -77,12 +89,7 @@ public class TransactionTest {
     @Test
     @DisplayName("Modification d'une transaction")
     public void updateTransactionTest() {
-        User user = new User();
-        user.setId(1L);
-        user.setName("Test User");
-        user.setEmail("test@example.com");
-        user.setRoles(Set.of(new Role(1, ERole.ROLE_USER)));
-
+        User user = createUser();
         transaction.setUser(user);
 
         when(userService.getConnectedUser()).thenReturn(user);

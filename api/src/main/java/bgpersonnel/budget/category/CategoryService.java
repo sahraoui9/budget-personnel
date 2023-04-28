@@ -63,6 +63,10 @@ public class CategoryService {
     public Category findById(Long id) {
         return categoryRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    public int countByUser(User user) {
+        return categoryRepository.countByUser(user);
+    }
     
 
     /**
