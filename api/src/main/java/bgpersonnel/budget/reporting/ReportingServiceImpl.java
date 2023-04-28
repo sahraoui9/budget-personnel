@@ -2,6 +2,7 @@ package bgpersonnel.budget.reporting;
 
 
 import bgpersonnel.budget.authentification.common.services.UserService;
+import bgpersonnel.budget.exeception.TypeRapportNotFoundException;
 import bgpersonnel.budget.service.csv.CsvGenerator;
 import bgpersonnel.budget.service.excel.ExcelGenerator;
 import bgpersonnel.budget.service.pdf.PdfGenerator;
@@ -13,14 +14,16 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @Service
-public class ReportingServiceImpl implements ReportingService {
+class ReportingServiceImpl implements ReportingService {
 
     private final CsvGenerator<TransactionReportDto> csvGenerator;
     private final ExcelGenerator<TransactionReportDto> excelGenerator;
     private final PdfGenerator<TransactionReportDto> pdfGenerator;
     private final TransactionRepository transactionRepository;
 
-    public ReportingServiceImpl(CsvGenerator csvGenerator, ExcelGenerator excelGenerator, PdfGenerator pdfGenerator,
+    public ReportingServiceImpl(CsvGenerator<TransactionReportDto> csvGenerator,
+                                ExcelGenerator<TransactionReportDto> excelGenerator,
+                                PdfGenerator<TransactionReportDto> pdfGenerator,
                                 TransactionRepository transactionRepository) {
         this.csvGenerator = csvGenerator;
         this.excelGenerator = excelGenerator;
@@ -29,19 +32,16 @@ public class ReportingServiceImpl implements ReportingService {
     }
 
     @Override
-    public ByteArrayInputStream generateReport(ReportRequest reportRequest) {
-        List<DataReport> donnees = List.of(
-                new DataReport("test", "test2"),
-                new DataReport("test3", "test4")
-        );
+    public ByteArrayInputStream generateReport(ReportRequest reportRequest) throws TypeRapportNotFoundException {
+
         Long userId = UserService.getIdConnectedUser();
         List<TransactionReportDto> transactions = transactionRepository.getTransactionsByUserBetweenDatesAndCategory(userId, reportRequest.getStartDate(), reportRequest.getEndDate(), reportRequest.getCategoryId());
         String[] header = {"Nom", "Montant", "Date", "Description", "Type de transaction"};
         return switch (reportRequest.getReportType()) {
             case CSV -> csvGenerator.generateCSV(transactions, header);
-            case XLS -> excelGenerator.generateExcel(transactions,header);
-            case PDF -> pdfGenerator.generatePdf(transactions, "/report.html",header);
-            default -> throw new IllegalStateException("Unexpected value: " + reportRequest.getReportType());
+            case XLS -> excelGenerator.generateExcel(transactions, header);
+            case PDF -> pdfGenerator.generatePdf(transactions, "/report.html", header);
+            default -> throw new TypeRapportNotFoundException("Le type de rapport demandé n'existe pas" + reportRequest.getReportType());
         };
 
     }
