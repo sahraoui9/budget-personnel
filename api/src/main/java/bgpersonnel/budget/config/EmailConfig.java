@@ -18,7 +18,7 @@ public class EmailConfig {
     @Value("${spring.mail.port}")
     private int port;
 
-    @Value("${spring.mail.user}")
+    @Value("${spring.mail.username}")
     private String user;
 
     @Value("${spring.mail.password}")
