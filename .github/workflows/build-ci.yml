@@ -31,10 +31,27 @@ jobs:
       #Run Tests
       - name: Run Tests
         run: mvn -B test
+        env:
+          DATASOURCE_PASSWORD: ''
+          DATASOURCE_URL: jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+          DATASOURCE_USERNAME: sa
+          MAIL_HOST: 0.0.0.0
+          MAIL_PASSWORD: mailhog
+          MAIL_PORT: 1025
+          MAIL_USERNAME: mailhog
+          SPRING_PROFILES_ACTIVE: test
 
       #Analyze project with SonarCloud
       - name: Analyze with SonarCloud
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=sahraoui9_budget-personnel -Dsonar.organization=pg-p -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        run: mvn -B -X verify sonar:sonar -Dsonar.projectKey=sahraoui9_budget-personnel -Dsonar.organization=pg-p -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          DATASOURCE_PASSWORD: ''
+          DATASOURCE_URL: jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+          DATASOURCE_USERNAME: sa
+          MAIL_HOST: 0.0.0.0
+          MAIL_PASSWORD: mailhog
+          MAIL_PORT: 1025
+          MAIL_USERNAME: mailhog
+          SPRING_PROFILES_ACTIVE: test
