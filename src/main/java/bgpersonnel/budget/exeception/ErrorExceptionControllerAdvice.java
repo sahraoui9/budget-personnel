@@ -28,4 +28,18 @@ public class ErrorExceptionControllerAdvice {
     public ErrorMessageResponse handleNotFoundException(NotFoundException ex, WebRequest request) {
         return new ErrorMessageResponse(ex.getMessage());
     }
+
+    @ExceptionHandler(value = GenerationRapportException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorMessageResponse handleGenerationRapportException(GenerationRapportException ex, WebRequest request) {
+        return new ErrorMessageResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessageResponse handleException(Exception ex, WebRequest request) {
+        return new ErrorMessageResponse(ex.getMessage());
+    }
+
+
 }
