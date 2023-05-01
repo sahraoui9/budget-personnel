@@ -1,8 +1,10 @@
 package bgpersonnel.budget.authentification.mangeruser;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UserUpdateRequest {
     private String name;
     private String email;

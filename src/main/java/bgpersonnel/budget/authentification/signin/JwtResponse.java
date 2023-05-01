@@ -2,10 +2,11 @@ package bgpersonnel.budget.authentification.signin;
 
 
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.List;
 
-@Data
+@Getter
 public class JwtResponse {
     private String token;
     private String type = "Bearer";

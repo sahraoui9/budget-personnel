@@ -31,7 +31,7 @@ class UserUpdateServiceImplTest {
 
     @Test
     void testUpdateUserInfo() {
-        // Mock userUpdateRequest
+        // given
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest();
         userUpdateRequest.setName("John");
         userUpdateRequest.setEmail("john@example.com");
@@ -41,16 +41,14 @@ class UserUpdateServiceImplTest {
         user.setId(1L);
         user.setName("Jane");
         user.setEmail("jane@example.com");
-
+        // when
         when(userService.getConnectedUser()).thenReturn(user);
-
-        // Call the method to be tested
         userUpdateService.updateUserInfo(userUpdateRequest);
 
-        // Verify that user information is updated
+        // then
         verify(userService, times(1)).saveUser(user);
-        assertEquals("John", user.getName());
-        assertEquals("john@example.com", user.getEmail());
+        assertEquals(userUpdateRequest.getName(), user.getName());
+        assertEquals(userUpdateRequest.getEmail(), user.getEmail());
     }
 
     @Test
@@ -66,8 +64,8 @@ class UserUpdateServiceImplTest {
         user.setPassword("oldEncodedPassword");
 
         when(userService.getConnectedUser()).thenReturn(user);
-        when(encoder.matches("oldPassword", "oldEncodedPassword")).thenReturn(true);
-        when(encoder.encode("newPassword")).thenReturn("newEncodedPassword");
+        when(encoder.matches(updatedPassword.getOldPassword(), "oldEncodedPassword")).thenReturn(true);
+        when(encoder.encode(updatedPassword.getNewPassword())).thenReturn("newEncodedPassword");
 
         // Call the method to be tested
         userUpdateService.updatePassword(updatedPassword);

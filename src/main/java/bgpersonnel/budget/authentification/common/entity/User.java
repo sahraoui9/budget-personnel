@@ -6,15 +6,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
-@ToString
+@Getter
+@Setter
 @AllArgsConstructor
 @Table(name = "users",
         uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
@@ -56,4 +56,10 @@ public class User {
         this.password = password;
     }
 
+    public User(Long id, String testUser, String mail, String password) {
+        this.id = id;
+        this.name = testUser;
+        this.email = mail;
+        this.password = password;
+    }
 }
