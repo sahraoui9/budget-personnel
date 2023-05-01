@@ -57,7 +57,7 @@ class SignupControllerTest {
     }
 
     @Test
-    public void registerUser_validSignupRequest_shouldReturnOkResponse() throws Exception {
+    void registerUser_validSignupRequest_shouldReturnOkResponse() throws Exception {
         SignupRequest signupRequest = new SignupRequest();
         signupRequest.setEmail("lahcen@mail.com");
         signupRequest.setName("lahcen");
@@ -78,7 +78,7 @@ class SignupControllerTest {
 
     @DisplayName("test signup with invalid data")
     @Test
-    public void registerUser_invalidSignupRequest_shouldReturnBadRequest() throws Exception {
+    void registerUser_invalidSignupRequest_shouldReturnBadRequest() throws Exception {
         SignupRequest signupRequest = new SignupRequest();
         signupRequest.setEmail("test");
         signupRequest.setName("test");
