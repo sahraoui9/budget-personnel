@@ -160,6 +160,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/InitDb.java</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

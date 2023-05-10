@@ -18,7 +18,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     List<Transaction> findByCategoryAndDateTransactionBetween(Category category, LocalDateTime dateDebut, LocalDateTime dateFin);
 
-    List<Transaction> findByDateTransactionAndUser(LocalDateTime localDateTime, User user);
+    List<Transaction> findByDateTransactionAndUser(LocalDate localDate, User user);
 
     /**
      * Cette méthode permet de récupérer les transactions d'un utilisateur entre deux dates et d'une catégorie

@@ -71,7 +71,6 @@ public class ReportingServiceImplTest {
         try (MockedStatic<UserService> utilities = Mockito.mockStatic(UserService.class)) {
             utilities.when(UserService::getIdConnectedUser).thenReturn(1L);
             ByteArrayInputStream reportInputStream = reportingService.generateReport(reportRequest);
-
         }
 
         //then
