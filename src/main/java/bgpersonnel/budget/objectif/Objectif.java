@@ -4,15 +4,16 @@ import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.model.BaseEntity;
 import bgpersonnel.budget.transaction.Transaction;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Objectif extends BaseEntity {
     @Id

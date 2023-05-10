@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
 @AllArgsConstructor
 @Getter
 @Setter
@@ -25,7 +24,6 @@ public class Budget extends BaseEntity {
     private Double maxAmount;
     private boolean isGlobal;
 
-    private boolean isEssential;
 
     @Enumerated(EnumType.STRING)
     private BudgetType type;
