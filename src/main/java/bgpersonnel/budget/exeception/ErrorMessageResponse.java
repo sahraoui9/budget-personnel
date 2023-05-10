@@ -1,12 +1,18 @@
 package bgpersonnel.budget.exeception;
 
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ErrorMessageResponse {
     private String message = "Error";
     private LocalDateTime dateTimeError = LocalDateTime.now();

@@ -6,15 +6,13 @@ import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.model.BaseEntity;
 import bgpersonnel.budget.objectif.Objectif;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -35,7 +33,7 @@ public class Transaction extends BaseEntity {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "transaction_id")
+    @JoinColumn(name = "objectif_id")
     private Objectif objectif;
 
 }

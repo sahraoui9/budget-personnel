@@ -46,6 +46,7 @@ public class TransactionService {
 
     /**
      * Retourne la liste des transactions.
+     *
      * @return la liste de toutes les transactions.
      */
     public List<Transaction> findAll() {
@@ -54,6 +55,7 @@ public class TransactionService {
 
     /**
      * Sauvegarde une nouvelle transaction dans la base de données en fonction du user
+     *
      * @param transaction à sauvegarder
      * @return transaction sauvegarder avec son id.
      */
@@ -67,21 +69,22 @@ public class TransactionService {
         Transaction savedTransaction = transactionRepository.save(transaction);
         Objectif objectif = transaction.getObjectif();
         if (objectif != null) {
-            boolean objectifAtteint = objectifService.isObjectifAtteint(objectif.getId());
+            objectifService.isObjectifAtteint(objectif.getId());
         }
-        Budget budget = transaction.getCategory().getBudget();
+        Budget budget = null == transaction.getCategory() ? null : transaction.getCategory().getBudget();
         if (budget != null) {
-            boolean budgetDepasse = budgetService.isBudgetDepasse(budget.getId());
+            budgetService.isBudgetDepasse(budget.getId());
         }
         return savedTransaction;
     }
 
     /**
      * Remplace les données d'une transaction dans la base de données en fonction de son id.
+     *
      * @param transaction nouvelles données à sauvegarder
      * @return la transaction avec les nouvelles données.
      */
-    public Transaction update(Transaction transaction){
+    public Transaction update(Transaction transaction) {
         User user = this.userService.getConnectedUser();
         transaction.setUpdatedAt(LocalDateTime.now());
         transaction.setUpdatedBy(user.getName());
@@ -91,17 +94,19 @@ public class TransactionService {
 
     /**
      * Recherche une transaction en fonction de son id.
+     *
      * @param id de la transaction à rechercher
      * @return la transaction portant l'id passé en paramètre
      * @throws org.springframework.web.server.ResponseStatusException si aucune transaction ne porte cet id
      */
     public Transaction findById(Long id) {
-        return transactionRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return transactionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
 
     /**
      * Recherche une transaction en fonction de sa catégorie.
+     *
      * @param id de la catégorie à rechercher
      * @return les transactions portant l'id de la catégorie passé en paramètre
      */
@@ -113,18 +118,20 @@ public class TransactionService {
 
     /**
      * Recherche une transaction en fonction de la date de transaction.
+     *
      * @param strDateTime date de la transaction à rechercher
      * @return les transactions se situant à la date passé en paramètre
      */
     public List<Transaction> findByDate(String strDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime dateTime = LocalDateTime.parse(strDateTime, formatter);
+        LocalDate date = LocalDate.parse(strDateTime, formatter);
 
-        return transactionRepository.findByDateTransactionAndUser(dateTime, this.userService.getConnectedUser());
+        return transactionRepository.findByDateTransactionAndUser(date, this.userService.getConnectedUser());
     }
 
     /**
      * supprime une transaction en fonction de son id.
+     *
      * @param id de la transaction à supprimer.
      */
     public void deleteById(Long id) {
@@ -133,8 +140,9 @@ public class TransactionService {
 
     /**
      * Ajoute une catégorie à la transaction
-     * @param transactionId  transaction à modifier
-     * @param categoryId catégorie à ajouter à la transaction
+     *
+     * @param transactionId transaction à modifier
+     * @param categoryId    catégorie à ajouter à la transaction
      * @return la transaction avec les nouvelles données.
      */
     public Transaction addCategory(long transactionId, long categoryId) {
@@ -225,7 +233,7 @@ public class TransactionService {
             LocalDateTime dateFin
     ) {
         List<SumTransactionDto> result = new ArrayList<>();
-        for (Category category: categories) {
+        for (Category category : categories) {
             List<Transaction> transactions =
                     transactionRepository.findByCategoryAndDateTransactionBetween(category, dateDebut, dateFin);
             double depense = 0.0;
