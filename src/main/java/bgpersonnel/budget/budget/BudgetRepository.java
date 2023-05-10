@@ -42,6 +42,15 @@ public interface BudgetRepository extends JpaRepository<Budget, Long>{
     List<Map<String, Object>> calculateMonthlyGlobalBudgetForYear(Integer year, Long userId);
 
 
+    @Query(value = "SELECT c.id as categ, MONTH(t.dateTransaction) as mounth, SUM(CASE WHEN t.typeTransaction = 'REVENU' THEN t.amount ELSE 0 END) - SUM(CASE WHEN t.typeTransaction IN ('EPARGNE', 'DEPENSE') THEN t.amount ELSE 0 END) as totalBudget, b.maxAmount as budgetAmount "
+            + "FROM Transaction t "
+            + "JOIN Category c ON t.category.id = c.id "
+            + "JOIN Budget b ON c.id = b.category.id  "
+            + "WHERE t.user.id = :userId "
+            + "AND YEAR(t.dateTransaction) = :year "
+            + "GROUP BY c.id, MONTH(t.dateTransaction)")
+    List<Map<String, Object>> calculateMonthlyBudgetByMounthForYearForCategory( Integer year, Long userId);
+
     @Query(value = "SELECT COALESCE(SUM(CASE WHEN t.typeTransaction = 'REVENU' THEN t.amount ELSE 0 END), 0) - COALESCE(SUM(CASE WHEN t.typeTransaction = 'EPARGNE' OR t.typeTransaction = 'DEPENSE' THEN t.amount ELSE 0 END), 0) " +
             "FROM Transaction t " +
             "WHERE t.user.id = :userId AND MONTH(t.dateTransaction) = :month AND YEAR(t.dateTransaction) = :year")
