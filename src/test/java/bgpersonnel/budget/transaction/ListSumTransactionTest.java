@@ -132,22 +132,22 @@ public class ListSumTransactionTest {
 
         when(transactionRepository.findByCategoryAndDateTransactionBetween(
                 category,
-                dateDebut,
-                dateFin)
+                dateDebut.toLocalDate(),
+                dateFin.toLocalDate())
         ).thenReturn(transactionListCategory2023);
 
 
         when(transactionRepository.findByCategoryAndDateTransactionBetween(
                 category2,
-                dateDebut,
-                dateFin)
+                dateDebut.toLocalDate(),
+                dateFin.toLocalDate())
         ).thenReturn(transactionListCategory2Year2023);
 
 
         when(transactionRepository.findByCategoryAndDateTransactionBetween(
                 category3,
-                dateDebut,
-                dateFin)
+                dateDebut.toLocalDate(),
+                dateFin.toLocalDate())
         ).thenReturn(new ArrayList<>());
 
         List<SumTransactionDto> sumTransactionDtos = transactionService.getSumTransactionByCategoriesAndYear(Year.of(2023));

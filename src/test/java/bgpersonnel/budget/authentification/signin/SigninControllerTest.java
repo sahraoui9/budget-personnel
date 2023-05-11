@@ -77,9 +77,7 @@ class SigninControllerTest {
     @Test
     void testAuthenticateUserWithWrongPassword() throws Exception {
         // given
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("user@mail.com");
-        loginRequest.setPassword("wrongPassword");
+        LoginRequest loginRequest = new LoginRequest("user@mail.com", "wrongPassword");
 
         // when
         MvcResult result = mockMvc.perform(post("/api/auth/signin")
