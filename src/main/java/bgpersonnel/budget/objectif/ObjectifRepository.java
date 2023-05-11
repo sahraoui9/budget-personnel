@@ -14,7 +14,7 @@ public interface ObjectifRepository extends JpaRepository<Objectif, Long> {
     List<Objectif> findByUser(Long id);
 
 
-    @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t WHERE t.objectif = :objectif")
-    Double calculateProgress(@Param("objectif") Objectif objectif);
+    @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t WHERE t.objectif_id = :idObjectif")
+    Double calculateProgress( Long idObjectif);
 
 }

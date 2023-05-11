@@ -15,9 +15,9 @@ public class MailService {
         this.mailSender = mailSender;
     }
 
-    void sendMail(Budget budget, String subject, String text) {
+    public void sendMail(String eMail, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(budget.getUser().getEmail());
+        message.setTo(eMail);
         message.setSubject(subject);
         message.setText(text);
         mailSender.send(message);

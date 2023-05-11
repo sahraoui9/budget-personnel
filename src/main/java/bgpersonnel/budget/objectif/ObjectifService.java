@@ -1,10 +1,12 @@
 package bgpersonnel.budget.objectif;
 
 
+import bgpersonnel.budget.budget.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -12,11 +14,15 @@ import java.util.List;
 @Service
 public class ObjectifService {
 
-    @Autowired
-    private ObjectifRepository objectifRepository;
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final ObjectifRepository objectifRepository;
+
+    private final MailService mailService;
+
+    public ObjectifService(ObjectifRepository objectifRepository, MailService mailService) {
+        this.objectifRepository = objectifRepository;
+        this.mailService = mailService;
+    }
     // CRUD operations
 
     public Objectif createObjectif(Objectif objectif) {
@@ -49,7 +55,7 @@ public class ObjectifService {
         if (objectif == null) {
             throw new IllegalArgumentException("Objectif invalide");
         }
-        Double progress = objectifRepository.calculateProgress(objectif);
+        Double progress = objectifRepository.calculateProgress(objectifId);
         return progress / objectif.getAmount() * 100.0;
     }
 
@@ -62,11 +68,7 @@ public class ObjectifService {
             String text = "Félicitations, vous avez atteint votre objectif financier " + objectif.getName() + " !";
 
             // envoyer un email à l'utilisateur
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(objectif.getUser().getEmail());
-            message.setSubject(subject);
-            message.setText(text);
-            mailSender.send(message);
+            mailService.sendMail(objectif.getUser().getEmail(), subject, text);
             return true;
         } else {
             return false;
