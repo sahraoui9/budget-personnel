@@ -181,7 +181,7 @@ class TransactionServiceTest {
 
         // Simulation du retour de la méthode findByDateTransactionAndUser du repository
         when(transactionRepository.findByDateTransactionAndUser(any(LocalDate.class), any(User.class))).thenReturn(
-                Arrays.asList(t3));
+                List.of(t3));
         when(userService.getConnectedUser()).thenReturn(user);
         // Appel de la méthode findByDate à tester
         List<Transaction> result = transactionService.findByDate("2022-03-31");

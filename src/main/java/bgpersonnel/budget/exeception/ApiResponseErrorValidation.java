@@ -3,7 +3,8 @@ package bgpersonnel.budget.exeception;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter @Getter
+@Setter
+@Getter
 public class ApiResponseErrorValidation<T> {
 
     private T data;

@@ -26,13 +26,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MangerUserControllerTest {
 
     @Autowired
+    UserAuthFixture userAuthFixture;
+    @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    UserAuthFixture userAuthFixture;
     private JwtResponse jwtResponse;
 
     @BeforeEach

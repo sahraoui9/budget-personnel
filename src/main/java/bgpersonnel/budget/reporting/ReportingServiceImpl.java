@@ -41,7 +41,8 @@ class ReportingServiceImpl implements ReportingService {
             case CSV -> csvGenerator.generateCSV(transactions, header);
             case XLS -> excelGenerator.generateExcel(transactions, header);
             case PDF -> pdfGenerator.generatePdf(transactions, "/report.html", header);
-            default -> throw new TypeRapportNotFoundException("Le type de rapport demandé n'existe pas" + reportRequest.getReportType());
+            default ->
+                    throw new TypeRapportNotFoundException("Le type de rapport demandé n'existe pas" + reportRequest.getReportType());
         };
 
     }

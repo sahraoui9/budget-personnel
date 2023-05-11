@@ -7,13 +7,13 @@ import java.util.List;
 
 @Getter
 public class JwtResponse {
-    private String token;
-    private String type = "Bearer";
-    private String refreshToken;
-    private Long id;
-    private String name;
-    private String email;
-    private List<String> roles;
+    private final String token;
+    private static final String BEARER = "Bearer";
+    private final String refreshToken;
+    private final Long id;
+    private final String name;
+    private final String email;
+    private final List<String> roles;
 
     public JwtResponse(String accessToken, String refreshToken, Long id, String name, String email, List<String> roles) {
         this.token = accessToken;

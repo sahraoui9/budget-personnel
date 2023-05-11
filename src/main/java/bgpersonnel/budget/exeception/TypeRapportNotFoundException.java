@@ -1,6 +1,6 @@
 package bgpersonnel.budget.exeception;
 
-public class TypeRapportNotFoundException extends RuntimeException{
+public class TypeRapportNotFoundException extends RuntimeException {
     public TypeRapportNotFoundException(String message) {
         super(message);
     }

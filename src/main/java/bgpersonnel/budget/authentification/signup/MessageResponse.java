@@ -3,7 +3,8 @@ package bgpersonnel.budget.authentification.signup;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class MessageResponse {
     private String message;
 

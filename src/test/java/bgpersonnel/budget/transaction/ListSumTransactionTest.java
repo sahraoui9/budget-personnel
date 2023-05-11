@@ -30,7 +30,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class ListSumTransactionTest {
+class ListSumTransactionTest {
 
     Transaction transaction;
     @Mock
@@ -44,7 +44,7 @@ public class ListSumTransactionTest {
 
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
         ObjectifService objectifService = Mockito.mock(ObjectifService.class);
         BudgetService budgetService = Mockito.mock(BudgetService.class);
@@ -79,7 +79,7 @@ public class ListSumTransactionTest {
     }
 
     @Test
-    public void getSumTransactionTest() {
+    void getSumTransactionTest() {
         Category category = new Category();
         category.setId(1L);
         category.setName("Categorie1");
@@ -113,8 +113,7 @@ public class ListSumTransactionTest {
         transactionListCategory2Year2023.add(transaction2);
         transactionListCategory2Year2023.add(transaction3);
 
-        Category category3 = new Category();
-        category3.setId(3L);
+        Category category3 = new Category(3L);
         category3.setName("Categorie3");
 
 
@@ -155,15 +154,15 @@ public class ListSumTransactionTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         assertEquals(sumTransactionDtos.get(0).getTotal(), -251.0);
-        assertEquals(sumTransactionDtos.get(0).getSumRevenue(), 0);
-        assertEquals(sumTransactionDtos.get(0).getSumDepense(), 251.0);
-        assertEquals(sumTransactionDtos.get(0).getNbTransactions(), 2);
+        assertEquals(0, sumTransactionDtos.get(0).getSumRevenue());
+        assertEquals(251.0, sumTransactionDtos.get(0).getSumDepense());
+        assertEquals(2, sumTransactionDtos.get(0).getNbTransactions());
         assertEquals(sumTransactionDtos.get(0).getDateDebut(), dateDebut.format(formatter));
         assertEquals(sumTransactionDtos.get(0).getDateFin(), dateFin.format(formatter));
-        assertEquals(sumTransactionDtos.get(0).getName(), "Categorie2");
-        assertEquals(sumTransactionDtos.get(1).getTotal(), 0.0);
-        assertEquals(sumTransactionDtos.get(1).getName(), "Categorie3");
-        assertEquals(sumTransactionDtos.get(2).getTotal(), 75.5);
-        assertEquals(sumTransactionDtos.get(2).getName(), "Categorie1");
+        assertEquals("Categorie2", sumTransactionDtos.get(0).getName());
+        assertEquals(0.0, sumTransactionDtos.get(1).getTotal());
+        assertEquals("Categorie3", sumTransactionDtos.get(1).getName());
+        assertEquals(75.5, sumTransactionDtos.get(2).getTotal());
+        assertEquals("Categorie1", sumTransactionDtos.get(2).getName());
     }
 }

@@ -27,13 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class CategoryControllerTest {
 
+    private final ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    UserAuthFixture userAuthFixture;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    UserAuthFixture userAuthFixture;
-    private final ObjectMapper mapper = new ObjectMapper();
     private JwtResponse jwtResponse;
 
     @BeforeEach

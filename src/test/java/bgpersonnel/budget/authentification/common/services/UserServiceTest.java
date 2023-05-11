@@ -22,12 +22,12 @@ import static org.mockito.Mockito.*;
 
 class UserServiceTest {
 
-    @Mock
-    private UserRepository userRepository;
-    private UserService userService;
     private final String userMail = "test@example.com";
     private final Long userId = 123L;
     private final User user = new User(userId, "Test User", "test@example.com", "password");
+    @Mock
+    private UserRepository userRepository;
+    private UserService userService;
 
     @BeforeEach
     void setUp() {

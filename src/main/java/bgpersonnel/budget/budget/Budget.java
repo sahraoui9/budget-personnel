@@ -4,7 +4,10 @@ import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.category.Category;
 import bgpersonnel.budget.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor

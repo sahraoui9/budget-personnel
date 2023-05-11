@@ -35,7 +35,7 @@ public final class CsvGeneratorImpl<T> implements CsvGenerator<T> {
         csvWriter.writeNext(header);
 
         // Écrire les données sans inclure le header automatique skip les noms des colonnes
-            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(csvWriter)
+        StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(csvWriter)
                 .withSeparator(ICSVWriter.DEFAULT_SEPARATOR)
                 .withQuotechar(ICSVWriter.NO_QUOTE_CHARACTER)
                 .build();

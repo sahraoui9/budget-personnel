@@ -3,14 +3,8 @@ package bgpersonnel.budget.fixtures;
 import bgpersonnel.budget.authentification.common.entity.ERole;
 import bgpersonnel.budget.authentification.common.entity.Role;
 import bgpersonnel.budget.authentification.common.entity.User;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceContexts;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

@@ -1,10 +1,12 @@
 package bgpersonnel.budget.transaction.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @AllArgsConstructor
 public class SumTransactionDto {
 

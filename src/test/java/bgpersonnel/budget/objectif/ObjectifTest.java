@@ -4,15 +4,10 @@ import bgpersonnel.budget.authentification.common.entity.ERole;
 import bgpersonnel.budget.authentification.common.entity.Role;
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.services.UserService;
-import bgpersonnel.budget.budget.Budget;
-import bgpersonnel.budget.budget.BudgetType;
-import bgpersonnel.budget.objectif.ObjectifService;
-import bgpersonnel.budget.objectif.ObjectifRepository;
 import bgpersonnel.budget.budget.MailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -23,9 +18,10 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
-public class ObjectifTest {
+class ObjectifTest {
 
     @Mock
     private ObjectifRepository objectifRepository;
@@ -35,7 +31,7 @@ public class ObjectifTest {
     private User user;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
         UserService userService = Mockito.mock(UserService.class);
         MailService mailService = Mockito.mock(MailService.class);
@@ -57,7 +53,7 @@ public class ObjectifTest {
 
     @Test
     @DisplayName("Création d'un objectif")
-    public void createObjectif() {
+    void createObjectif() {
         Objectif objectif = new Objectif();
         objectif.setId(1L);
         objectif.setAmount(1000.0);
@@ -73,13 +69,13 @@ public class ObjectifTest {
         assertEquals("Test", objectif.getName());
         assertEquals("Test unitaire", objectif.getDescription());
         assertEquals(1000.0, objectif.getAmount());
-        assertEquals(false, objectif.isReached());
+        assertFalse(objectif.isReached());
     }
 
 
     @Test
     @DisplayName("Modification d'un objectif")
-    public void updateObjectifTest() {
+    void updateObjectifTest() {
         Objectif objectif = new Objectif();
         objectif.setId(1L);
         objectif.setAmount(1000.0);
@@ -101,12 +97,12 @@ public class ObjectifTest {
         assertEquals("Test2", objectif.getName());
         assertEquals("Test unitaire 2", objectif.getDescription());
         assertEquals(200.0, objectif.getAmount());
-        assertEquals(false, objectif.isReached());
+        assertFalse(objectif.isReached());
     }
 
     @Test
     @DisplayName("Récupération d'un objectif")
-    public void findByIdTest() {
+    void findByIdTest() {
         Objectif objectif = new Objectif();
         objectif.setId(1L);
         objectif.setAmount(1000.0);
@@ -121,14 +117,14 @@ public class ObjectifTest {
 
     @Test
     @DisplayName("Récupération de tous les objectifs")
-    public void findAllTest() {
+    void findAllTest() {
         objectifService.findAll();
         verify(objectifRepository, times(1)).findAll();
     }
 
     @Test
     @DisplayName("Suppression d'un objectif")
-    public void deleteObjectifTest() {
+    void deleteObjectifTest() {
         objectifService.deleteById(1L);
 
         verify(objectifRepository, times(1)).deleteById(1L);
@@ -136,7 +132,7 @@ public class ObjectifTest {
 
     @Test
     @DisplayName("Calcul du pourcentage d'un objectif")
-    public void calculateProgressPercentageTest(){
+    void calculateProgressPercentageTest() {
         Objectif objectif = new Objectif();
         objectif.setId(1L);
         objectif.setAmount(1000.0);
@@ -153,7 +149,7 @@ public class ObjectifTest {
 
     @Test
     @DisplayName("Test si un objectif est atteint")
-    public void isObjectifAtteintTest(){
+    void isObjectifAtteintTest() {
         Objectif objectif = new Objectif();
         objectif.setId(1L);
         objectif.setAmount(1000.0);
@@ -164,6 +160,6 @@ public class ObjectifTest {
 
         when(objectifRepository.findById(1L)).thenReturn(java.util.Optional.of(objectif));
         boolean result = objectifService.isObjectifAtteint(1L);
-        assertEquals(false, result);
+        assertFalse(result);
     }
 }

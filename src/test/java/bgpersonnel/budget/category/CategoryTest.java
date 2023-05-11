@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-public class CategoryTest {
+class CategoryTest {
 
     @Mock
     private CategoryService categoryService;
@@ -29,7 +29,7 @@ public class CategoryTest {
     private User user;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
         UserService userService = Mockito.mock(UserService.class);
         user = createUser();
@@ -50,7 +50,7 @@ public class CategoryTest {
 
     @Test
     @DisplayName("Création d'une catégorie")
-    public void createTransactionTest() {
+    void createTransactionTest() {
         Category category = new Category();
         category.setId(1L);
         category.setName("Test");
@@ -67,7 +67,7 @@ public class CategoryTest {
 
     @Test
     @DisplayName("modification d'une catégorie")
-    public void updateTransactionTest() {
+    void updateTransactionTest() {
         Category category = new Category();
         category.setId(1L);
         category.setName("Test");

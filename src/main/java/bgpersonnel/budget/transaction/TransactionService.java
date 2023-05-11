@@ -26,9 +26,8 @@ public class TransactionService {
     private final UserService userService;
     private final CategoryService categoryService;
     private final ObjectifService objectifService;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
     private final BudgetService budgetService;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public TransactionService(
             TransactionRepository transactionRepository,

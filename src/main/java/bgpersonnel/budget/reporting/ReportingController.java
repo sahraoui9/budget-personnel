@@ -12,29 +12,29 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-
 
 
 @RestController
 @RequestMapping("/api/reports")
 public class ReportingController {
 
-    private final ReportingService reportingService;
-
     private static final Map<ETypeReport, String> FILENAMES_BY_TYPE = Map.of(
             ETypeReport.CSV, "report.csv",
             ETypeReport.XLS, "report.xlsx",
             ETypeReport.PDF, "report.pdf"
     );
-
     private static final Map<ETypeReport, MediaType> CONTENT_TYPES_BY_TYPE = Map.of(
             ETypeReport.CSV, MediaType.parseMediaType("text/csv"),
             ETypeReport.XLS, MediaType.parseMediaType("application/vnd.ms-excel"),
             ETypeReport.PDF, MediaType.parseMediaType("application/pdf")
     );
+    private final ReportingService reportingService;
 
     public ReportingController(ReportingService reportingService) {
         this.reportingService = reportingService;
