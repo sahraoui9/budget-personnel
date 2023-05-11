@@ -11,7 +11,6 @@ import java.util.Optional;
 @RequestMapping("/objectifs")
 public class ObjectifController {
 
-    @Autowired
     private final ObjectifService objectifService;
 
     public ObjectifController(ObjectifService objectifService) {

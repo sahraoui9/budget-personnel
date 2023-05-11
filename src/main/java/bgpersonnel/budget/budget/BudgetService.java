@@ -224,7 +224,7 @@ public class BudgetService {
             String text = "Vous avez atteint votre bodget " + budget.getName() + " !";
 
             // envoyer un email à l'utilisateur
-            mailService.sendMail(budget, subject, text);
+            mailService.sendMail(budget.getUser().getEmail(), subject, text);
             return true;
         }
         return false;

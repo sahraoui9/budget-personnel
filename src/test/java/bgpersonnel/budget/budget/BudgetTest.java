@@ -5,10 +5,6 @@ import bgpersonnel.budget.authentification.common.entity.Role;
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.services.UserService;
 import bgpersonnel.budget.category.Category;
-import bgpersonnel.budget.category.CategoryService;
-import bgpersonnel.budget.transaction.Transaction;
-import bgpersonnel.budget.transaction.TransactionRepository;
-import bgpersonnel.budget.transaction.TypeTransaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,9 +27,6 @@ public class BudgetTest {
 
     @InjectMocks
     private BudgetService budgetService;
-
-    @Mock
-    private TransactionRepository transactionRepository;
 
     private User user;
 
