@@ -56,12 +56,8 @@ class SignupControllerTest {
 
     @Test
     void registerUser_validSignupRequest_shouldReturnOkResponse() throws Exception {
-        SignupRequest signupRequest = new SignupRequest();
-        signupRequest.setEmail("lahcen@mail.com");
-        signupRequest.setName("lahcen");
-        signupRequest.setPassword("password");
-        signupRequest.setRole(Set.of("ROLE_USER"));
-        System.out.println(signupRequest);
+        SignupRequest signupRequest = new SignupRequest("mail", "mail@mail.com", Set.of("ROLE_USER"), "password");
+
         MvcResult result = mvc.perform(post("/api/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(signupRequest)))
@@ -69,7 +65,7 @@ class SignupControllerTest {
                 .andReturn();
 
         // then
-        boolean userExist = userRepository.findByEmail("lahcen@mail.com").isPresent();
+        boolean userExist = userRepository.findByEmail("mail@mail.com").isPresent();
         assertThat(userExist).isTrue();
 
     }

@@ -4,14 +4,14 @@ import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.budget.Budget;
 import bgpersonnel.budget.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@AllArgsConstructor
 public class Category extends BaseEntity {
 
     @Id

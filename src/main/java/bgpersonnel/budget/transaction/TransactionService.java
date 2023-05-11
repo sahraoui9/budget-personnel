@@ -168,8 +168,8 @@ public class TransactionService {
 
         List<Transaction> transactions = transactionRepository.findByUserAndDateTransactionBetween(
                 user,
-                dateDebut,
-                dateFin
+                dateDebut.toLocalDate(),
+                dateFin.toLocalDate()
         );
 
         double depenseTotal = 0.0;
@@ -214,7 +214,7 @@ public class TransactionService {
         LocalDateTime dateDebut = LocalDateTime.of(year.atDay(1), LocalTime.of(0, 0));
         LocalDateTime dateFin = LocalDateTime.of(year.atMonth(12).atEndOfMonth(), LocalTime.of(0, 0));
 
-        return getSumOfTransactionsByDate(categories, dateDebut, dateFin);
+        return getSumOfTransactionsByDate(categories, dateDebut.toLocalDate(), dateFin.toLocalDate());
     }
 
     public List<SumTransactionDto> getSumTransactionByCategoriesAndMonth(YearMonth yearMonth) {
@@ -224,13 +224,13 @@ public class TransactionService {
         LocalDateTime dateDebut = LocalDateTime.of(yearMonth.atDay(1), LocalTime.of(0, 0));
         LocalDateTime dateFin = LocalDateTime.of(yearMonth.atEndOfMonth(), LocalTime.of(0, 0));
 
-        return getSumOfTransactionsByDate(categories, dateDebut, dateFin);
+        return getSumOfTransactionsByDate(categories, dateDebut.toLocalDate(), dateFin.toLocalDate());
     }
 
     private List<SumTransactionDto> getSumOfTransactionsByDate(
             List<Category> categories,
-            LocalDateTime dateDebut,
-            LocalDateTime dateFin
+            LocalDate dateDebut,
+            LocalDate dateFin
     ) {
         List<SumTransactionDto> result = new ArrayList<>();
         for (Category category : categories) {
