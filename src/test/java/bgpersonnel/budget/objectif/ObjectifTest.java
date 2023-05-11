@@ -30,7 +30,6 @@ public class ObjectifTest {
     @Mock
     private ObjectifRepository objectifRepository;
 
-    @InjectMocks
     private ObjectifService objectifService;
 
     private User user;
