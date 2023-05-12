@@ -154,7 +154,7 @@ public class TransactionService {
     }
 
     /**
-     * Retourne une liste de catégorie ou les dépenses sont trop importnates par rapport aux autres catégorie.
+     * Retourne une liste de catégorie ou les dépenses sont trop importantes par rapport aux autres catégories.
      */
     public List<SuggestionEconomieDto> getSuggestionEconomie() {
         Year year = Year.now();
