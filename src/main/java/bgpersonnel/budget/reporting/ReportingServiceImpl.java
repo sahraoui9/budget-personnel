@@ -3,6 +3,8 @@ package bgpersonnel.budget.reporting;
 
 import bgpersonnel.budget.authentification.common.services.UserService;
 import bgpersonnel.budget.exeception.TypeRapportNotFoundException;
+import bgpersonnel.budget.reporting.ReportRequest;
+import bgpersonnel.budget.reporting.ReportingService;
 import bgpersonnel.budget.service.csv.CsvGenerator;
 import bgpersonnel.budget.service.excel.ExcelGenerator;
 import bgpersonnel.budget.service.pdf.PdfGenerator;

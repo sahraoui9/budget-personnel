@@ -30,22 +30,20 @@
     <thead>
     <tr>
         <#list header as item>
-        <th>${item}</th>
-    </
-    #list>
+            <th>${item}</th>
+        </#list>
     </tr>
     </thead>
     <tbody>
     <#list data as item>
-    <tr>
-        <td>${item.name}</td>
-        <td>${item.amount}</td>
-        <td>${item.date}</td>
-        <td>${item.description}</td>
-        <td>${item.typeTransaction}</td>
-    </tr>
-    </
-    #list>
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.amount}</td>
+            <td>${item.date}</td>
+            <td>${item.description}</td>
+            <td>${item.typeTransaction}</td>
+        </tr>
+    </#list>
     </tbody>
 </table>
 </body>

@@ -22,18 +22,23 @@ public class UserAuthFixture {
     @Autowired
     private SigninService signinService;
 
+    private User user;
 
     // create user and connected
     public JwtResponse createUserAndConnect() {
         Role role = UserFactory.createAdminRole();
         em.persist(role);
-        User user = UserFactory.createAdminUser(role);
+        user = UserFactory.createAdminUser(role);
         em.persist(user);
         em.flush();
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(user.getEmail());
         loginRequest.setPassword("password");
         return signinService.signIn(loginRequest);
+    }
+
+    public User getUser() {
+        return user;
     }
 
 

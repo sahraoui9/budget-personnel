@@ -1,6 +1,7 @@
 package bgpersonnel.budget.reporting;
 
 
+import bgpersonnel.budget.reporting.depense.ExpenseReport;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,9 +36,11 @@ public class ReportingController {
             ETypeReport.PDF, MediaType.parseMediaType("application/pdf")
     );
     private final ReportingService reportingService;
+    private final ExpenseReport expenseReport;
 
-    public ReportingController(ReportingService reportingService) {
+    public ReportingController(ReportingService reportingService, ExpenseReport expenseReport) {
         this.reportingService = reportingService;
+        this.expenseReport = expenseReport;
     }
 
     /**
@@ -54,8 +57,6 @@ public class ReportingController {
             @ApiResponse(responseCode = "200", description = "Report generated"),
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "404", description = "Not found")
     })
     @PostMapping
     public ResponseEntity<Resource> generateReport(@RequestBody ReportRequest reportRequest) {
@@ -66,6 +67,20 @@ public class ReportingController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(contentType)
                 .body(new InputStreamResource(reportingService.generateReport(reportRequest)));
+    }
+
+    /**
+     * Cette méthode permet de générer un rapport de liste de dépenses en fonction du type de rapport demandé
+     */
+    @PostMapping("expense-report")
+    public ResponseEntity<Resource> generateExpenseReport(@RequestBody ETypeReport reportType) {
+        String filename = FILENAMES_BY_TYPE.get(reportType);
+        MediaType contentType = CONTENT_TYPES_BY_TYPE.get(reportType);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(contentType)
+                .body(new InputStreamResource(expenseReport.generateReportCategoryTooExpensive(reportType)));
     }
 }
 
