@@ -47,7 +47,7 @@ public class ReportingController {
      * Cette méthode permet de générer un rapport de liste de transactions en fonction du type de rapport demandé
      */
     @OpenAPI30
-    @Operation(summary = "Generate report", description = "Generate report", tags = {"reporting"})
+    @Operation(summary = "Generate report transaction list", description = "Generate report transaction list with multiple format (csv, pdf,excel) ", tags = {"reporting"})
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Report request",
             required = true,
@@ -72,6 +72,18 @@ public class ReportingController {
     /**
      * Cette méthode permet de générer un rapport de liste de dépenses en fonction du type de rapport demandé
      */
+    @OpenAPI30
+    @Operation(summary = "Generate report expense list", description = "Generate report expense list with multiple format (csv, pdf,excel) ", tags = {"reporting"})
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "",
+            required = true,
+            content = @Content(schema = @Schema(implementation = ETypeReport.class))
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Report generated"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+    })
     @PostMapping("expense-report")
     public ResponseEntity<Resource> generateExpenseReport(@RequestBody ETypeReport reportType) {
         String filename = FILENAMES_BY_TYPE.get(reportType);
