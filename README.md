@@ -55,6 +55,20 @@ Voici la liste des packages utilisés dans le projet Maven budget fourni :
 - `spring-boot-starter-mail` : package de démarrage pour l'envoi de courrier électronique.
 
 ## Liste des fonctionnalités
+- Authentification : L'authentification est basée sur Spring Security et JWT. Lors de l'authentification, un token JWT est généré et envoyé dans le body de la réponse.
+- Gestion des utilisateurs (modification du mot de passe, informations personnelles)
+- Gestion des catégories de dépenses/revenus
+- Gestion des transactions
+- Gestion des objectifs
+- Gestion des budgets
+- Génération de fichiers CSV, PDF et Excel
+
+## Architecture
+
+L'architecture du projet est basée sur l'architecture Layered service. Elle est composée de 3 couches :
+- La couche de présentation : contient les contrôleurs REST
+- La couche métier : contient les services
+- La couche d'accès aux données : contient les repositories et les entités
 
 ## CI/CD
 
@@ -63,7 +77,11 @@ Utilisation de github actions pour la CI/CD pour lancer les tests unitaires et d
 ## Qualité du code
 - Utilisation de SonarLint et SonarCloud pour analyser le code et corriger les erreurs
 - Lien vers SonarCloud : https://sonarcloud.io/summary/overall?id=sahraoui9_budget-personnel
-## Diagramme ER 
+
+## Tests
+Les tests unitaires et d'intégration sont réalisés avec JUnit 5 et Mockito.
+
+## Modèle de données
 Voici le diagramme ER de la base de données :
 
 ![Diagramme ER](docs/ER.png)
