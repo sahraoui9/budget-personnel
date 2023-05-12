@@ -1,7 +1,7 @@
 package bgpersonnel.budget.objectif;
 
 
-import bgpersonnel.budget.budget.MailService;
+import bgpersonnel.budget.service.MailService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

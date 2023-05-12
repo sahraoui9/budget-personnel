@@ -1,4 +1,4 @@
-package bgpersonnel.budget.budget;
+package bgpersonnel.budget.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

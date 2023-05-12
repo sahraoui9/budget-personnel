@@ -2,6 +2,7 @@ package bgpersonnel.budget.budget;
 
 
 import bgpersonnel.budget.authentification.common.services.UserService;
+import bgpersonnel.budget.service.MailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;

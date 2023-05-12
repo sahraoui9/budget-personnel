@@ -157,6 +157,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/InitDb.java</exclude>
+                        <exclude>**/BudgetApplication.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

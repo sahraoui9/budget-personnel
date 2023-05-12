@@ -5,6 +5,7 @@ import bgpersonnel.budget.authentification.common.entity.Role;
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.services.UserService;
 import bgpersonnel.budget.category.Category;
+import bgpersonnel.budget.service.MailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
