@@ -12,11 +12,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class CategoryTest {
@@ -78,4 +78,37 @@ class CategoryTest {
         assertNotNull(category.getUpdatedAt());
         assertEquals(category.getUpdatedBy(), user.getName());
     }
+
+    @Test
+    @DisplayName("get category by id exist")
+    void getCategoryByIdExistTest() {
+        // given
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Test");
+        category.setUser(user);
+
+        // when
+        when(categoryRepository.findById(1L)).thenReturn(java.util.Optional.of(category));
+
+        Category categoryFound = categoryService.findById(1L);
+
+        // then
+        assertEquals(categoryFound.getId(), category.getId());
+        assertEquals(categoryFound.getName(), category.getName());
+        assertEquals(categoryFound.getUser(), category.getUser());
+    }
+
+    @Test
+    @DisplayName("get category by id not exist")
+    void getCategoryByIdNotExistTest() {
+        when(categoryRepository.findById(1L)).thenReturn(java.util.Optional.empty());
+
+        //throw exception ResponseStatusException
+
+        assertThrows(ResponseStatusException.class, () -> {
+            categoryService.findById(1L);
+        });
+    }
+
 }
