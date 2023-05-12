@@ -1,6 +1,5 @@
 package bgpersonnel.budget.reporting.depense;
 
-import bgpersonnel.budget.exeception.TypeRapportNotFoundException;
 import bgpersonnel.budget.reporting.ETypeReport;
 import bgpersonnel.budget.service.csv.CsvGenerator;
 import bgpersonnel.budget.service.excel.ExcelGenerator;
@@ -40,7 +39,6 @@ class ExpenseReportImpl implements ExpenseReport {
             case CSV -> csvGenerator.generateCSV(transactions, header);
             case XLS -> excelGenerator.generateExcel(transactions, header);
             case PDF -> pdfGenerator.generatePdf(transactions, "/report_depense.html", header);
-            default -> throw new TypeRapportNotFoundException("Le type de rapport demandé n'existe pas" + type);
         };
 
     }

@@ -1,7 +1,5 @@
 package bgpersonnel.budget.reporting;
 
-import bgpersonnel.budget.exeception.TypeRapportNotFoundException;
-import bgpersonnel.budget.reporting.ReportRequest;
 
 import java.io.ByteArrayInputStream;
 
@@ -12,6 +10,6 @@ public interface ReportingService {
      * @param reportRequest ReportRequest
      * @return ByteArrayInputStream
      */
-    ByteArrayInputStream generateReport(ReportRequest reportRequest) throws TypeRapportNotFoundException;
+    ByteArrayInputStream generateReport(ReportRequest reportRequest);
 
 }
