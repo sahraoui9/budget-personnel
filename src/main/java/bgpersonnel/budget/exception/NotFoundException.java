@@ -1,4 +1,4 @@
-package bgpersonnel.budget.exeception;
+package bgpersonnel.budget.exception;
 
 public class NotFoundException extends RuntimeException {
 

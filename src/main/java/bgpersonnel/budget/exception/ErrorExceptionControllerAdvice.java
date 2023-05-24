@@ -1,4 +1,4 @@
-package bgpersonnel.budget.exeception;
+package bgpersonnel.budget.exception;
 
 import bgpersonnel.budget.authentification.security.exeception.TokenRefreshException;
 import org.springframework.http.HttpStatus;

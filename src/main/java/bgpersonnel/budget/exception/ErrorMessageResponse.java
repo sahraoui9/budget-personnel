@@ -1,4 +1,4 @@
-package bgpersonnel.budget.exeception;
+package bgpersonnel.budget.exception;
 
 
 import lombok.Getter;

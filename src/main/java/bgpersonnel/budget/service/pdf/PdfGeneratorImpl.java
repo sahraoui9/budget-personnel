@@ -1,7 +1,7 @@
 package bgpersonnel.budget.service.pdf;
 
 
-import bgpersonnel.budget.exeception.GenerationRapportException;
+import bgpersonnel.budget.exception.GenerationRapportException;
 import com.itextpdf.html2pdf.HtmlConverter;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;

@@ -3,7 +3,7 @@ package bgpersonnel.budget.authentification.common.services;
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.repository.UserRepository;
 import bgpersonnel.budget.authentification.security.services.UserDetailsImpl;
-import bgpersonnel.budget.exeception.NotFoundException;
+import bgpersonnel.budget.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

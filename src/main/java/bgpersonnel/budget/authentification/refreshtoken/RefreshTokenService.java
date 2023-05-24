@@ -3,7 +3,7 @@ package bgpersonnel.budget.authentification.refreshtoken;
 import bgpersonnel.budget.authentification.common.repository.UserRepository;
 import bgpersonnel.budget.authentification.security.JwtUtils;
 import bgpersonnel.budget.authentification.security.exeception.TokenRefreshException;
-import bgpersonnel.budget.exeception.NotFoundException;
+import bgpersonnel.budget.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

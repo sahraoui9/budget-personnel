@@ -1,7 +1,7 @@
 package bgpersonnel.budget.service;
 
 
-import bgpersonnel.budget.exeception.GenerationRapportException;
+import bgpersonnel.budget.exception.GenerationRapportException;
 
 import java.lang.reflect.Method;
 

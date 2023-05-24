@@ -1,6 +1,6 @@
 package bgpersonnel.budget.service.csv;
 
-import bgpersonnel.budget.exeception.GenerationRapportException;
+import bgpersonnel.budget.exception.GenerationRapportException;
 import bgpersonnel.budget.service.DtoReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

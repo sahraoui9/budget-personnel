@@ -6,8 +6,8 @@ import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.repository.RoleRepository;
 import bgpersonnel.budget.authentification.common.repository.UserRepository;
 import bgpersonnel.budget.authentification.security.JwtUtils;
-import bgpersonnel.budget.exeception.AlreadyExistsException;
-import bgpersonnel.budget.exeception.NotFoundException;
+import bgpersonnel.budget.exception.AlreadyExistsException;
+import bgpersonnel.budget.exception.NotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

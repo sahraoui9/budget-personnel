@@ -18,7 +18,14 @@ Les étapes pour installer le projet sont les suivantes :
 
 lien vers swagger : http://localhost:8080/swagger-ui.html
 
-## Technologies utilisées
+## Environment de développement
+- IntelliJ IDEA/Visual Studio Code
+- Postman
+- Docker
+- Git
+- Postgres
+
+## Outils utilisés
 
 - Java 17
 - Spring Boot 3
@@ -26,7 +33,6 @@ lien vers swagger : http://localhost:8080/swagger-ui.html
 - Docker / Docker-compose
 - Postgres
 - Swagger
-- H2 (test)
 - Github Actions
 - SonarCloud
 - Git
@@ -87,5 +93,30 @@ Voici le diagramme ER de la base de données :
 ![Diagramme ER](docs/ER.png)
 
 ## Auteurs
+
+## Pourquoi on a choisi l'architecture Layered service ?
+- L'architecture Layered service est une architecture simple et facile à mettre en place.
+- Elle permet de séparer les responsabilités et de rendre le code plus lisible.
+
+## Contribution
+Cloner le projet et créer une nouvelle branche :
+```
+git clone https://git clone https://github.com/sahraoui9/budget-personnel.git && cd budget-personnel && git checkout -b <branch_name>
+```
+### creation des branches
+- feature/xxx : pour les nouvelles fonctionnalités
+- bugfix/xxx : pour les corrections de bugs
+- refactor/xxx : pour les refactorisations
+- docs/xxx : pour la documentation
+- test/xxx : pour les tests
+- chore/xxx : pour les tâches de maintenance
+- ci/xxx : pour les tâches liées à l'intégration continue
+- build/xxx : pour les tâches liées à la construction
+- design/xxx : pour les tâches liées au design
+- style/xxx : pour les tâches liées au style
+
+### Commit
+- Les messages de commit doivent être clairs, concis et descriptifs.
+- Les messages de commit doivent être écrits en anglais.
 
 

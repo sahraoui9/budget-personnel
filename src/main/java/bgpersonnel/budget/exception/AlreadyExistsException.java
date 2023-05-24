@@ -1,4 +1,4 @@
-package bgpersonnel.budget.exeception;
+package bgpersonnel.budget.exception;
 
 public class AlreadyExistsException extends RuntimeException {
     public AlreadyExistsException(String message) {

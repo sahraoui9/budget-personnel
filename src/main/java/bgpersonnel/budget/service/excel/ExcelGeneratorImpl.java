@@ -1,6 +1,6 @@
 package bgpersonnel.budget.service.excel;
 
-import bgpersonnel.budget.exeception.GenerationRapportException;
+import bgpersonnel.budget.exception.GenerationRapportException;
 import bgpersonnel.budget.service.GeneratorHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;

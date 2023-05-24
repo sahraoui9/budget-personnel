@@ -1,6 +1,6 @@
 package bgpersonnel.budget.service.csv;
 
-import bgpersonnel.budget.exeception.GenerationRapportException;
+import bgpersonnel.budget.exception.GenerationRapportException;
 import com.opencsv.CSVWriter;
 import com.opencsv.ICSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;

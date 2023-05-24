@@ -4,7 +4,7 @@ package bgpersonnel.budget.authentification.common.services;
 import bgpersonnel.budget.authentification.common.entity.User;
 import bgpersonnel.budget.authentification.common.repository.UserRepository;
 import bgpersonnel.budget.authentification.security.services.UserDetailsImpl;
-import bgpersonnel.budget.exeception.NotFoundException;
+import bgpersonnel.budget.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
